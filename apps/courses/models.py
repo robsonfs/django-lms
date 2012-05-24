@@ -75,6 +75,9 @@ class AssignmentSubmission(models.Model):
     submitted = models.DateTimeField(auto_now_add = True)
     modified = models.DateTimeField(auto_now_add = True, auto_now = True)
 
+    def late(self):
+        return self.submitted.date() > self.assignment.due_date
+
     def __unicode__(self):
         if self.link:
             return self.link

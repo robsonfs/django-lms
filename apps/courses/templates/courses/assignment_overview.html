@@ -16,14 +16,14 @@
   {% ifcoursefaculty %}
   <h3>All submitted solutions</h3>
   {% for submission in submissions %}
-    <div class="left">
+    <div class="{% cycle 'odd' 'even' %}">
       {% include "courses/submission.html" %}
     </div>
   {% endfor %}
   {% else %}
   <h3>Your submitted solutions</h3>
   {% for submission in submissions %}
-  <div>
+  <div class="{% cycle 'even' '' %}">
     <div class="right">
       <a class="button delete" href="#" id="submission_{{ submission.id }}">Delete</a>
     </div>

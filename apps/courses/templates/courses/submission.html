@@ -3,6 +3,7 @@
     {% for user in submission.users %}
     {{ user.get_full_name }}{% if not forloop.last %}, {% endif %}
     {% endfor %}
+      on {{ submission.submitted }}{% if submission.late %}<span class="late"> (late)</span>{% endif %}
     </em>
   </div>
 {% if submission.link %}

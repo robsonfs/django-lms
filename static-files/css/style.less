@@ -1,7 +1,6 @@
 @siteWidth: 940px;
 @tableYellow: #FCFCDC;
 
-
 html {
   height: 100%;
   }
@@ -242,6 +241,10 @@ ul.nav.logged_out,.userbox
   font-size: 1.1em;
   }
 
+.odd {
+  background-color: @tableYellow;
+}
+
 #course-list {
   font-size: 1.25em;
 
@@ -306,20 +309,13 @@ ul.nav.logged_out,.userbox
 form tbody tr:nth-child(even) td, form tbody tr.even td {background:#fff;}
 
 #assignment-list {
-  border-top: 1px solid #BEDCE7;
-  }
-
-#assignment-list .assignment-overview {
-  border-bottom: 1px solid #BEDCE7;
-  border-left: 1px solid #BEDCE7;
-  border-right: 1px solid #BEDCE7;
-  padding: 0 .7em .7em .7em;
-  background: #EAF2F5 0 100% repeat-x;
-  overflow: hidden;
-  }
-
-.assignment-overview .assignment-title {
-  font-size: 1.4em;
+  .assignment-overview {
+    padding: .7em .7em .7em .7em;
+    overflow: hidden;
+    .assignment-title {
+      font-size: 1.4em;
+      }
+    }
   }
 
 .assignment-overview .assignment-due-date::before {
@@ -428,10 +424,6 @@ form th {
   float: right;
   }
 
-.submission .delete {
-  margin-left: 15px;
-  }
-
 .submission {
   margin-top: 5px;
   padding: 5px;
@@ -441,6 +433,14 @@ form th {
 
   .by {
     padding-bottom: 5px;
+    }
+
+  .delete {
+    margin-left: 15px;
+    }
+
+  .late {
+    color: red;
     }
   }
 
