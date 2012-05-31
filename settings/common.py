@@ -100,6 +100,7 @@ INSTALLED_APPS = [
     'djcelery',
     'mptt',
     'recurrence',
+    'social_auth',
         
     # Local apps
     
@@ -116,6 +117,16 @@ INSTALLED_APPS = [
 
 AUTHENTICATION_BACKENDS = (
     'permission_backend_nonrel.backends.NonrelPermissionBackend',
+    'social_auth.backends.google.GoogleBackend',
+)
+
+SOCIAL_AUTH_CREATE_USERS = False
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_auth.backends.pipeline.social.social_auth_user',
+    'social_auth.backends.pipeline.social.associate_user',
+    'social_auth.backends.pipeline.social.load_extra_data',
+    'social_auth.backends.pipeline.user.update_user_details'
 )
 
 

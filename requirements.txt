@@ -19,3 +19,5 @@ pil
 django_compressor
 django-celery
 celery-with-mongodb
+django-social-auth
+python-openid
