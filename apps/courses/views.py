@@ -30,7 +30,7 @@ class CourseOverview(BreadCrumbMixin, DetailView):
         context = super(CourseOverview, self).get_context_data(**kwargs)
     
         # Check if user is a member
-        context['is_member'] = self.request.user in context['course'].members
+        context['is_member'] = self.request.user in context['course'].members.all()
         
         return context
 
@@ -43,7 +43,7 @@ class CourseOverview(BreadCrumbMixin, DetailView):
         self.breadcrumbs.insert(0, Breadcrumb(unicode(course.semester), reverse('courses:by_semester', kwargs={'pk': course.semester.id})))
 
         if course.private:
-            if request.user not in itertools.chain(course.faculty, course.members, course.teaching_assistants):
+            if request.user not in itertools.chain(course.faculty.all(), course.members.all(), course.teaching_assistants.all()):
                 raise exceptions.PermissionDenied
 
         return super(CourseOverview, self).dispatch(request, *args, **kwargs)
@@ -116,12 +116,12 @@ class ToggleMembership(View, SingleObjectMixin, JSONResponseMixin):
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
 
-        if request.user in self.object.members:
+        if request.user in self.object.members.all():
             self.object.members.remove(request.user)
             self.object.save()
             status = "removed"
         else:
-            self.object.members.append(request.user)
+            self.object.members.add(request.user)
             self.object.save()
             status = "added"
         context = {'status':status}
@@ -163,7 +163,7 @@ class NewCourseAssignment(BreadCrumbMixin, CreateView):
 
         self.breadcrumbs.insert(0, Breadcrumb(unicode(course), reverse('courses:overview', kwargs={'pk': course.id})))
 
-        if request.user not in course.faculty:
+        if request.user not in course.faculty.all():
                 raise exceptions.PermissionDenied
 
         return super(NewCourseAssignment, self).dispatch(request, *args, **kwargs)
@@ -202,7 +202,7 @@ class AssignmentOverview(BreadCrumbMixin, DetailView):
 
         
         # If the course faculty, return all submissions
-        if self.request.user in self.get_object().course.faculty:
+        if self.request.user in self.get_object().course.faculty.all():
             context['submissions'] = AssignmentSubmission.objects.filter(assignment = self.get_object())
         else:
             # If course member get any submissions the member has submitted
@@ -250,8 +250,8 @@ class SubmitAssignment(BreadCrumbMixin, CreateView):
     def form_valid(self, form):
         self.object = form.save(commit = False)
         self.object.assignment = Assignment.objects.get(pk = self.kwargs['pk'])
-        self.object.users.append(self.request.user)
         self.object.save()
+        self.object.users.add(self.request.user)
 
         return super(SubmitAssignment, self).form_valid(form)
 
@@ -265,7 +265,7 @@ class SubmitAssignment(BreadCrumbMixin, CreateView):
         
         self.breadcrumbs.insert(0, Breadcrumb(unicode(course), reverse('courses:overview', kwargs={'pk': course.id})))
 
-        if request.user not in self.assignment.course.members:
+        if request.user not in self.assignment.course.members.all():
                 raise exceptions.PermissionDenied
 
         return super(SubmitAssignment, self).dispatch(request, *args, **kwargs)
@@ -305,7 +305,7 @@ class TeamSubmitAssignment(SubmitAssignment):
     def get_form(self, form_class):
         form = super(TeamSubmitAssignment, self).get_form(form_class)
 
-        form.fields['users'].queryset =  User.objects.filter(id__in = [user.id for user in self.assignment.course.members])
+        form.fields['users'].queryset =  User.objects.filter(id__in = [user.id for user in self.assignment.course.members.all()])
 
         return form
 
@@ -343,7 +343,7 @@ class NewCourseResource(BreadCrumbMixin, CreateView):
         self.kwargs = kwargs
         course = Course.objects.get(pk = self.kwargs['pk'])
 
-        if request.user not in course.faculty:
+        if request.user not in course.faculty.all():
                 raise exceptions.PermissionDenied
 
         return super(NewCourseResource, self).dispatch(request, *args, **kwargs)

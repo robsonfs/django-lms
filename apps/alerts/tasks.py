@@ -1,5 +1,8 @@
+from django.conf import settings
 from django.contrib.auth.models import User
-from permission_backend_nonrel.models import UserPermissionList
+
+if settings.NONREL:
+    from permission_backend_nonrel.models import UserPermissionList
 
 from celery.task import task
 
@@ -25,6 +28,10 @@ def alert_groups(alert, groups):
         groups = [groups]
 
     for group in groups:
-        userperm_list = UserPermissionList.objects.filter(group_fk_list = group.id)
-        
-        alert_userlist(alert, [u.user for u in userperm_list])
+        if settings.NONREL:
+            userperm_list = UserPermissionList.objects.filter(group_fk_list = group.id)
+            alert_userlist(alert, [u.user for u in userperm_list])
+        else:
+            users = User.objects.filter(groups = group)
+            alert_userlist(alert, users)
+

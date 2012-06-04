@@ -109,7 +109,7 @@ class CoursesTest(test_utils.AuthenticatedTest):
         self.assertEquals(response.status_code, 403)
 
         # Test membership
-        self.course.members.append(self.user)
+        self.course.members.add(self.user)
         self.course.save()
         response = self.c.get(reverse('courses:overview', args = [self.course.id]))
         self.assertEquals(response.status_code, 200)
@@ -117,7 +117,7 @@ class CoursesTest(test_utils.AuthenticatedTest):
         self.course.save()
         
         # Test Faculty
-        self.course.faculty.append(self.user)
+        self.course.faculty.add(self.user)
         self.course.save()
         response = self.c.get(reverse('courses:overview', args = [self.course.id]))
         self.assertEquals(response.status_code, 200)
@@ -125,7 +125,7 @@ class CoursesTest(test_utils.AuthenticatedTest):
         self.course.save()
 
         # Test TA
-        self.course.teaching_assistants.append(self.user)
+        self.course.teaching_assistants.add(self.user)
         self.course.save()
         response = self.c.get(reverse('courses:overview', args = [self.course.id]))
         self.assertEquals(response.status_code, 200)
@@ -150,7 +150,7 @@ class AssignmentTest(test_utils.AuthenticatedTest):
 
     def test_create(self):
         # Add client user as faculty member
-        self.course.faculty.append(self.user)
+        self.course.faculty.add(self.user)
         self.course.save()
 
         # Test we get the form
@@ -173,7 +173,7 @@ class AssignmentTest(test_utils.AuthenticatedTest):
         assignment.save()
 
         # Add client user as faculty member
-        self.course.faculty.append(self.user)
+        self.course.faculty.add(self.user)
         self.course.save()
         
         response = self.c.get(reverse('courses:assignments', kwargs = {'pk':self.course.id}))
@@ -186,7 +186,7 @@ class AssignmentTest(test_utils.AuthenticatedTest):
 
     def test_submit(self):
         # Add client user as faculty member
-        self.course.faculty.append(self.user)
+        self.course.faculty.add(self.user)
         self.course.save()
         response = self.c.post(reverse('courses:new_assignment', kwargs = {'pk':self.course.id}), {'course':self.course.id,
                                                                                             'title':'Test Assignment',
@@ -196,7 +196,7 @@ class AssignmentTest(test_utils.AuthenticatedTest):
         # Remove user
         self.course.faculty.remove(self.user)
 
-        self.course.members.append(self.user)
+        self.course.members.add(self.user)
         self.course.save()
 
         assignment = Assignment.objects.get(course = self.course, title = 'Test Assignment')
@@ -226,12 +226,12 @@ class AssignmentTest(test_utils.AuthenticatedTest):
 
         self.submission = AssignmentSubmission(assignment = self.assignment,
                                                link = 'http://example.com',
-                                               users = [self.users[0]]
-            )
+                    )
         self.submission.save()
+        self.submission.users.add(self.users[0])
 
         # Set myself as the faculty for the course.
-        self.course.faculty.append(self.user)
+        self.course.faculty.add(self.user)
         self.course.save()
 
         response = self.c.get(reverse('courses:assignment_overview', args = [self.assignment.id]))
@@ -259,7 +259,7 @@ class AssignmentTest(test_utils.AuthenticatedTest):
 
     def test_delete_submission(self):
         # We overrode the delete, so we should be testing it
-        self.course.members.append(self.user)
+        self.course.members.add(self.user)
         self.course.save()
 
         assignment = Assignment(course = self.course, title = "Test Assignment", description = 'Test of the description <b>HERE</b>', due_date = (datetime.date.today() + one_week).isoformat())
@@ -267,7 +267,7 @@ class AssignmentTest(test_utils.AuthenticatedTest):
 
         submission = AssignmentSubmission(assignment = assignment, link = "http://www.example.com", notes = "Test notes.")
         submission.save()
-        submission.users.append(self.user)
+        submission.users.add(self.user)
         submission.save()
 
         s_id = submission.id
@@ -283,7 +283,7 @@ class AssignmentTest(test_utils.AuthenticatedTest):
             self.extra_users()
 
         # Add client user as faculty member
-        self.course.faculty.append(self.user)
+        self.course.faculty.add(self.user)
         self.course.save()
         response = self.c.post(reverse('courses:new_assignment', kwargs = {'pk':self.course.id}), {'course':self.course.id,
                                                                                             'title':'Test Assignment',
@@ -292,11 +292,11 @@ class AssignmentTest(test_utils.AuthenticatedTest):
 
         # Remove user
         self.course.faculty.remove(self.user)
-        self.course.members.append(self.user)
+        self.course.members.add(self.user)
         self.course.save()
 
         for user in self.users:
-            self.course.members.append(user)
+            self.course.members.add(user)
 
         self.course.save()
         
@@ -329,7 +329,7 @@ class ResourceTest(test_utils.AuthenticatedTest):
 
     def test_create(self):
         # Add client user as faculty member
-        self.course.faculty.append(self.user)
+        self.course.faculty.add(self.user)
         self.course.save()
 
         # Test we get the form
@@ -352,7 +352,11 @@ class ResourceTest(test_utils.AuthenticatedTest):
         resource.save()
 
         # Add client user as faculty member
-        self.course.faculty.append(self.user)
+        if settings.NONREL:
+            self.course.faculty.append(self.user)
+        else:
+            self.course.faculty.add(self.user)
+
         self.course.save()
         
         response = self.c.get(reverse('courses:resources', kwargs = {'pk':self.course.id}))
@@ -365,7 +369,7 @@ class ResourceTest(test_utils.AuthenticatedTest):
 
     def test_delete_resource(self):
         # We overrode the delete, so we should be testing it
-        self.course.faculty.append(self.user)
+        self.course.faculty.add(self.user)
 
         resource = Resource(course = self.course, title = "Test Resource", description = 'Test of the description <b>HERE</b>', link = 'http://example.com')
         resource.save()

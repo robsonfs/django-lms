@@ -1,6 +1,6 @@
 <div class="submission">
   <div class="by"><em>Submitted by: 
-    {% for user in submission.users %}
+    {% for user in submission.users.all %}
     {{ user.get_full_name }}{% if not forloop.last %}, {% endif %}
     {% endfor %}
       on {{ submission.submitted }}{% if submission.late %}<span class="late"> (late)</span>{% endif %}

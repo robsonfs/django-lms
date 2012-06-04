@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, Group
 
@@ -5,7 +6,8 @@ import libs.test_utils as test_utils
 from alerts.models import Alert
 from alerts.tasks import alert_userlist, alert_groups
 
-from permission_backend_nonrel.utils import update_user_groups
+if settings.NONREL:
+    from permission_backend_nonrel.utils import update_user_groups
 
 class AlertTest(test_utils.AuthenticatedTest):
     def test_acknowlege(self):
@@ -58,8 +60,11 @@ class AlertTest(test_utils.AuthenticatedTest):
         # Create a load of users
         for i in range(50):
             user = User.objects.create(username = 'user_%s' %(i))
-            update_user_groups(user, [group])
-
+            if settings.NONREL:
+                update_user_groups(user, [group])
+            else:
+                group.user_set.add(user)
+                
         for i in range(50, 100):
             user = User.objects.create(username = 'user_%s' %(i))
 
@@ -70,7 +75,7 @@ class AlertTest(test_utils.AuthenticatedTest):
                       level = 'Notice',)
 
         alert_groups(alert, group)
-        
+
         self.assertEquals(len(Alert.objects.all()), 50)
 
 
@@ -86,11 +91,18 @@ class AlertTest(test_utils.AuthenticatedTest):
         # Create a load of users
         for i in range(25):
             user = User.objects.create(username = 'user_%s' %(i))
-            update_user_groups(user, [group1])
+            if settings.NONREL:
+                update_user_groups(user, [group1])
+            else:
+                group1.user_set.add(user)
 
         for i in range(25, 50):
             user = User.objects.create(username = 'user_%s' %(i))
-            update_user_groups(user, [group2])
+            
+            if settings.NONREL:
+                update_user_groups(user, [group2])
+            else:
+                group2.user_set.add(user)
 
 
         for i in range(50, 100):

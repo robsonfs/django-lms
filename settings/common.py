@@ -19,6 +19,11 @@ sys.path.append(PROJECT_ROOT + '/libs')
 
 MEDIA_ROOT = SITE_ROOT + '/media'
 
+# Nonrel flag
+NONREL = False
+
+
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -91,9 +96,6 @@ INSTALLED_APPS = [
 
     # Third party apps
 
-    'django_mongodb_engine',
-    'djangotoolbox',
-    'permission_backend_nonrel',
     'tinymce',
     'libs',
     'compressor',
@@ -116,7 +118,7 @@ INSTALLED_APPS = [
     ]
 
 AUTHENTICATION_BACKENDS = (
-    'permission_backend_nonrel.backends.NonrelPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
     'social_auth.backends.google.GoogleBackend',
 )
 
