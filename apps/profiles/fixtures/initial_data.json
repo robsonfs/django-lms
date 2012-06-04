@@ -1,7 +1,7 @@
 [
     {
         "model" : "profiles.servicetype",
-        "pk" : "4ea9c4fdbb69337f8e000001",
+        "pk" : null,
         "fields" : {
             "title": "Flickr",
             "url": "http://www.flickr.com/photos/{user}/"
@@ -9,7 +9,7 @@
     },
     {
         "model" : "profiles.servicetype",
-        "pk" : "4ea9c4fdbb69337f8e000002",
+        "pk" : null,
         "fields" : {
             "title": "Twitter",
             "url": "http://www.twitter.com/{user}/"
@@ -17,7 +17,7 @@
     },
     {
         "model" : "profiles.servicetype",
-        "pk" : "4ea9c4fdbb69337f8e000003",
+        "pk" : null,
         "fields" : {
             "title": "Pownce",
             "url": "http://www.pownce.com/{user}/"
@@ -25,7 +25,7 @@
     },
     {
         "model" : "profiles.servicetype",
-        "pk" : "4ea9c4fdbb69337f8e000004",
+        "pk" : null,
         "fields" : {
             "title": "Facebook",
             "url": "http://www.facebook.com/profile.php?id={user}"
@@ -33,7 +33,7 @@
     },
     {
         "model" : "profiles.servicetype",
-        "pk" : "4ea9c4fdbb69337f8e000005",
+        "pk" : null,
         "fields" : {
             "title": "Digg",
             "url": "http://digg.com/users/{user}/"
@@ -41,7 +41,7 @@
     },
     {
         "model" : "profiles.servicetype",
-        "pk" : "4ea9c4fdbb69337f8e000006",
+        "pk" : null,
         "fields" : {
             "title": "Del.icio.us",
             "url": "http://del.icio.us/{user}/"
@@ -49,7 +49,7 @@
     },
     {
         "model" : "profiles.servicetype",
-        "pk" : "4ea9c4fdbb69337f8e000007",
+        "pk" : null,
         "fields" : {
             "title": "You Tube",
             "url": "http://www.youtube.com/user/{user}/"
@@ -57,7 +57,7 @@
     },
     {
         "model" : "profiles.servicetype",
-        "pk" : "4ea9c4fdbb69337f8e000008",
+        "pk" : null,
         "fields" : {
             "title": "MySpace",
             "url": "http://www.myspace.com/{user}/"
@@ -65,7 +65,7 @@
     },
     {
         "model" : "profiles.servicetype",
-        "pk" : "4ea9c4fdbb69337f8e000009",
+        "pk" : null,
         "fields" : {
             "title": "Dopplr",
             "url": "http://www.dopplr.com/traveller/{user}/"
@@ -73,7 +73,7 @@
     },
     {
         "model" : "profiles.servicetype",
-        "pk" : "4ea9c4fdbb69337f8e00000a",
+        "pk" : null,
         "fields" : {
             "title": "Wordie",
             "url": "http://www.wordie.com/people/{user}/"

@@ -1,0 +1,8 @@
+-r common-requirements.txt
+
+-e git+git://github.com/dcramer/django-devserver#egg=django-devserver
+django<1.4
+sqlparse
+werkzeug
+guppy
+psycopg2==2.4.1

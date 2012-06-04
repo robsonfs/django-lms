@@ -32,14 +32,14 @@ $(document).ready(function(){
 {% block course_content %}
 <div id="course">
   <span class="course-sub-info">{{ course.number }} - {{ course.section }}: {{ course.semester.name }} {{ course.semester.year }} | {{ course.credits }} credit hours</span>
-    {% ifpossiblemember %}
+  {% ifpossiblemember %}
   {% if course.semester.active %}
     {% if not request.user in course.members %}
       <div class="right"><a id="membership-button" href="#" class="btn btn-primary">Become member</a></div>
     {% else %}
       <div class="right"><a id="membership-button" href="#" class="btn btn-primary">Remove membership</a></div>
     {% endif %}
-  {% endif %}
+      {% endif %}
 {% endifpossiblemember %}
   
   <div id="description">

@@ -32,7 +32,7 @@ class FacultyCheckNode(template.Node):
             group = Group.objects.get(name='Faculty')
         except Group.DoesNotExist:
             return ''
-        if group in user.group_list:
+        if group in user.groups.all():
             return self.nodelist.render(context)
         return ''
 
@@ -67,8 +67,8 @@ class FacultyCourseCheckNode(template.Node):
 
         if user.is_authenticated:
             # Not sure if we should be checking for group. Hmmm
-            if group in user.group_list:
-                if user in course.faculty:
+            if group in user.groups.all():
+                if user in course.faculty.all():
                     return self.nodelist_true.render(context)
 
         if self.nodelist_false:
@@ -110,10 +110,10 @@ class PossibleMemberCheckNode(template.Node):
         if not user.is_authenticated:
             return ''
         try:
-            group = Group.objects.get(name='Student')
+            group = Group.objects.get(name='Students')
         except Group.DoesNotExist:
             return ''
-        if group in user.group_list:
+        if group in user.groups.all():
             return self.nodelist.render(context)
         return ''
 
@@ -131,6 +131,6 @@ class MemberCheckNode(template.Node):
             group = Group.objects.get(name='Student')
         except Group.DoesNotExist:
             return ''
-        if request.user in course.members:
+        if request.user in course.members.all():
             return self.nodelist.render(context)
         return ''

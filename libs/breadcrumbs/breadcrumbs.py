@@ -18,7 +18,11 @@ class Singleton(object):
         return cls._instance
 
 class Breadcrumbs(Singleton, list):
-    pass
+    def _clean(self):
+        self.__bds = []
+        self.__autohome=getattr(settings,'BREADCRUMBS_AUTO_HOME',False)
+        self.__urls =[]
+
 
 class Breadcrumb(object):
     """
@@ -41,3 +45,4 @@ class Breadcrumb(object):
 
     def __repr__(self):
         return u"Breadcrumb <%s,%s>" % (self.name,self.url)
+
