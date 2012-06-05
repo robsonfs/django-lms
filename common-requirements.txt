@@ -8,4 +8,5 @@ django_compressor
 django-celery
 django-tastypie
 celery-with-mongodb
+django-socialauth
 -e git+git://github.com/emperorcezar/django-recurrence#egg=recurrence

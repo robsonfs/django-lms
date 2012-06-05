@@ -84,6 +84,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
     "libs.context_processors.settings",
+    "social_auth.context_processors.social_auth_by_name_backends",
     )
 
 INSTALLED_APPS = [

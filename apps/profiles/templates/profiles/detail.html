@@ -2,8 +2,9 @@
 {% load util %}
 {% block title %}Profile for {{ profile.user }}{% endblock title %}
 {% block content %}
+
 <div class="container profile-detail">
- <div class="span-5 profile-image">
+  <div class="span-5 profile-image">
   {% if profile.mugshot %}
     <img src="{{ profile.mugshot.url }}" alt="profile image">
   {% else %}
@@ -11,7 +12,10 @@
   {% endif %}
  </div>
   <div class="span-41 last profile-text">
-    <h1>Profile for {{ profile.user }}</h1>
+    <h1>Profile for {{ profile.user.get_full_name }}  {% if profile.user == request.user %}
+      <a href="{% url profiles:edit profile.user %}" class="btn btn-primary edit-button">Edit</a>
+  {% endif %}
+</h1>
     {% if profile.data.biography %}
     <h3>Biography</h3>
     <p>{{ profile.data.biography|safe }}</p>
