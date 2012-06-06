@@ -121,6 +121,7 @@ INSTALLED_APPS = [
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'social_auth.backends.google.GoogleBackend',
+    'social_auth.backends.facebook.FacebookBackend',
 )
 
 SOCIAL_AUTH_CREATE_USERS = False
@@ -129,7 +130,6 @@ SOCIAL_AUTH_PIPELINE = (
     'social_auth.backends.pipeline.social.social_auth_user',
     'social_auth.backends.pipeline.social.associate_user',
     'social_auth.backends.pipeline.social.load_extra_data',
-    'social_auth.backends.pipeline.user.update_user_details'
 )
 
 
@@ -176,6 +176,8 @@ TINYMCE_DEFAULT_CONFIG = {
     }
 
 # Celery config
+
+FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 
 BROKER_URL = "mongodb://localhost:27017/celery"
 BROKER_VHOST = "/"

@@ -24,6 +24,9 @@
     <h3>Resume</h3>
     <p><a href="{{ profile.resume.url }}">{{ profile.resume.name|basename }}</a>
     {% endif %}
+      {% if profile.user == request.user %}
+      {% include "profiles/socialauths.html" %}
+      {% endif %}
   </div>
 </div>
 {% endblock content %}
