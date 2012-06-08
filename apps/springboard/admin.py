@@ -13,8 +13,8 @@ class IntranetApplicationAdminForm(forms.ModelForm):
         super(IntranetApplicationAdminForm, self).__init__(*args, **kwargs)
 
         try:
-            self.fields['groups'].initial = self.instance.groups
-        except KeyError:
+            self.fields['groups'].initial = self.instance.groups.all()
+        except ValueError:
             self.fields['groups'].initial = list()
 
 

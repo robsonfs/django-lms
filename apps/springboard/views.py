@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.db.models import Q
 from libs.django_utils import render_to_response
 from django.views.generic import ListView
 from springboard.models import IntranetApplication
@@ -13,22 +14,8 @@ class SpringBoard(ListView):
 
     def get_queryset(self):
         # Check the groups the user is allowed to see
-        applications = IntranetApplication.objects.none()
 
-        if settings.NONREL:
-            for group in self.request.user.group_list:
-                applications = applications | IntranetApplication.objects.filter(groups=group)
-
-            applications = applications | IntranetApplication.objects.filter(groups=[])
-
-        else:
-            for group in self.request.user.groups.all():
-                applications = applications | IntranetApplication.objects.filter(groups=group)
-
-            applications = applications | IntranetApplication.objects.filter(groups=None)
-
-        return applications
-
+        return IntranetApplication.objects.filter(Q(groups__in = self.request.user.groups.all()) | Q(groups__isnull=True)).distinct()
 
     def get_context_data(self, **kwargs):
         # Temporary message for testing
