@@ -19,6 +19,8 @@ urlpatterns = patterns('',
     (r'^', include(api.urls)),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'accounts/login.html'}, name="login"),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login', name="logout"),
+    url(r'', include('social_auth.urls')),
+
     # Uncomment the admin/doc line below to enable admin documentation:
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
@@ -26,9 +28,17 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
 )
 
+#If we're using zimbra
+
+if 'apps.zimbra' in settings.INSTALLED_APPS:
+    urlpatterns += patterns('',
+                            (r'^zimbra/', include('apps.zimbra.urls', namespace='zimbra', app_name='zimbra'))
+    )
+
 if settings.DEBUG:
     urlpatterns += patterns('',
                             (r'^media/(?P<path>.*)$', 'django.views.static.serve',
                              {'document_root': settings.MEDIA_ROOT,
                               'show_indexes': True}),
                             )
+

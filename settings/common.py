@@ -84,6 +84,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
     "libs.context_processors.settings",
+    "social_auth.context_processors.social_auth_by_name_backends",
     )
 
 INSTALLED_APPS = [
@@ -102,6 +103,7 @@ INSTALLED_APPS = [
     'djcelery',
     'mptt',
     'recurrence',
+    'social_auth',
         
     # Local apps
     
@@ -116,6 +118,19 @@ INSTALLED_APPS = [
 
     ]
 
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'social_auth.backends.google.GoogleBackend',
+    'social_auth.backends.facebook.FacebookBackend',
+)
+
+SOCIAL_AUTH_CREATE_USERS = False
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_auth.backends.pipeline.social.social_auth_user',
+    'social_auth.backends.pipeline.social.associate_user',
+    'social_auth.backends.pipeline.social.load_extra_data',
+)
 
 
 STATIC_ROOT = SITE_ROOT + "/static"
@@ -161,6 +176,8 @@ TINYMCE_DEFAULT_CONFIG = {
     }
 
 # Celery config
+
+FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 
 BROKER_URL = "mongodb://localhost:27017/celery"
 BROKER_VHOST = "/"
