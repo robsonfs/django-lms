@@ -1,6 +1,7 @@
 from time import time
 import hmac, hashlib
 
+from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
@@ -15,5 +16,5 @@ def preauth(request):
     acct = request.user.email
     
     pak = hmac.new(settings.ZIMBRA_PREAUTH, '%s|name|0|%s'%(acct, timestamp), hashlib.sha1).hexdigest()
-    return HttpResponseRedirect("%s/service/preauth?account=%s&expires=0&timestamp=%s&preauth=%s"%(settings.ZIMBRA_URL, acct, timestamp, pak))
+    return HttpResponseRedirect("//%s/service/preauth?account=%s&expires=0&timestamp=%s&preauth=%s"%(settings.ZIMBRA_URL, acct, timestamp, pak))
 

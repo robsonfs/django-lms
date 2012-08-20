@@ -112,6 +112,7 @@ INSTALLED_APPS = [
     'apps.courses',
     'apps.profiles',
     'apps.alerts',
+    'apps.zimbra',
 
     # Admin comes last so our apps can override some templates
     'django.contrib.admin',
