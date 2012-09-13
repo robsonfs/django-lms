@@ -1,7 +1,6 @@
--r common-requirements.txt
+-r requirements.txt
 
 -e git+git://github.com/dcramer/django-devserver#egg=django-devserver
-django<1.4
 sqlparse
 werkzeug
 guppy

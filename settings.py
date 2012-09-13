@@ -1,6 +1,8 @@
 import sys
 import os
 
+import dj_database_url
+
 import djcelery
 djcelery.setup_loader()
 
@@ -8,7 +10,7 @@ djcelery.setup_loader()
 
 ## Directories
 SETTINGS_DIRECTORY = os.path.dirname( os.path.abspath(__file__) )
-PROJECT_ROOT = os.path.dirname( SETTINGS_DIRECTORY )
+PROJECT_ROOT = SETTINGS_DIRECTORY
 
 # Has db and all that stuff in it, the non-tracked things
 SITE_ROOT = os.path.dirname( PROJECT_ROOT )
@@ -21,8 +23,6 @@ MEDIA_ROOT = SITE_ROOT + '/media'
 
 # Nonrel flag
 NONREL = False
-
-
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -66,7 +66,7 @@ MIDDLEWARE_CLASSES = (
     'breadcrumbs.middleware.BreadcrumbsMiddleware',
 )
 
-ROOT_URLCONF = 'django-lms.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = (
     PROJECT_ROOT + "/templates",
@@ -149,10 +149,6 @@ STATICFILES_FINDERS = (
     'compressor.finders.CompressorFinder',
 )
 
-COMPRESS_PRECOMPILERS = (
-    ('text/less', 'lessc {infile} {outfile}'),
-)
-
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
@@ -176,14 +172,25 @@ TINYMCE_DEFAULT_CONFIG = {
     'theme_advanced_toolbar_align' : "left",
     }
 
-# Celery config
+DATABASES = {'default': dj_database_url.config(default='postgres://localhost:5432/django_lms')}# Celery config
 
 FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 
-BROKER_URL = "mongodb://localhost:27017/celery"
-BROKER_VHOST = "/"
+BROKER_URL = os.environ.get('BROKEN_URL', "mongodb://localhost:27017/celery")
+BROKER_VHOST = os.environ.get('BROKER_VHOST', "/")
+DEBUG = bool(os.environ.get('DEBUG', False))
+TEMPLATE_DEBUG = DEBUG
 
-try:
-    from local_settings import *
-except ImportError, exp:
-    pass
+
+if DEBUG:
+    CELERY_ALWAYS_EAGER = True
+    INSTALLED_APPS.append('devserver')
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
+TYPEKIT_URL = os.environ.get('TYPEKIT_URL')
+SITE_ID = os.environ.get('SITE_ID')
+
+FACEBOOK_APP_ID = os.environ.get('FACEBOOK_APP_ID')
+FACEBOOK_API_SECRET = os.environ.get('FACEBOOK_API_SECRET')
+
+
