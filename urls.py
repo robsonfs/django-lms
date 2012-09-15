@@ -30,10 +30,6 @@ urlpatterns = patterns('',
 
 #If we're using zimbra
 
-if 'apps.zimbra' in settings.INSTALLED_APPS:
-    urlpatterns += patterns('',
-                            (r'^zimbra/', include('apps.zimbra.urls', namespace='zimbra', app_name='zimbra'))
-    )
 
 if settings.DEBUG:
     urlpatterns += patterns('',
