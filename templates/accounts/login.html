@@ -39,10 +39,9 @@
 	        <input type="hidden" name="next" value="{{ next }}" />
 	      </div>
 	      <div class="submit-row">
-	        <input type="submit" value="{% trans 'Log in' %}" class="btn primary"/>
+	        <input type="submit" value="{% trans 'Log in' %}" class="btn btn-primary"/>
 	      </div>
         </form>
-        <a href="{% url socialauth_begin 'google' %}">Enter using Twitter</a>
         <script type="text/javascript">
 	      document.getElementById('id_username').focus()
         </script>

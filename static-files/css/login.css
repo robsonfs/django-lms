@@ -41,7 +41,7 @@
 }
 .login .submit-row {
   clear: both;
-  padding: 0 0 0 102px;
+  padding: 0 0 0 111px;
 }
 .login #login-header {
   background: #417690;
@@ -53,6 +53,9 @@
 }
 .login #login-header a:hover {
   text-decoration: underline;
+}
+.center {
+  text-align: center;
 }
 #header a:visited {
   color: white;
