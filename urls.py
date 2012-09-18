@@ -12,6 +12,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^$', include('apps.springboard.urls')),
+    (r'^admin/', include(admin.site.urls)),
     (r'^courses/', include('apps.courses.urls', namespace="courses", app_name="courses")),
     (r'^profiles/', include('apps.profiles.urls', namespace="profiles", app_name="profiles")),
     (r'^alerts/', include('apps.alerts.urls', namespace="alerts", app_name="alerts")),
@@ -24,8 +25,6 @@ urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    # Uncomment the next line to enable the admin:
-    (r'^admin/', include(admin.site.urls)),
 )
 
 #If we're using zimbra
