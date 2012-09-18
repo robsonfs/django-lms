@@ -1,6 +1,8 @@
 import sys
 import os
 
+import django.conf.global_settings as DEFAULT_SETTINGS
+
 import dj_database_url
 
 import djcelery
@@ -54,7 +56,6 @@ MEDIA_URL = '/media/'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -75,15 +76,10 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
+TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_SETTINGS.TEMPLATE_CONTEXT_PROCESSORS + (
     "django.core.context_processors.request",
-    "django.contrib.messages.context_processors.messages",
     "libs.context_processors.settings",
+    "libs.context_processors.user_groups",
     "social_auth.context_processors.social_auth_by_name_backends",
     )
 
