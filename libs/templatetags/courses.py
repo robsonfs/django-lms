@@ -41,7 +41,7 @@ class FacultyCourseCheckNode(template.Node):
 
         if user.is_authenticated:
             # Not sure if we should be checking for group. Hmmm
-            if user.groups.filter(name = 'Faculty').count() > 0:
+            if user.groups.filter(name = 'Faculty').exists():
                 if user in course.faculty.all():
                     return self.nodelist_true.render(context)
 
