@@ -9,9 +9,6 @@ from django.forms import ModelMultipleChoiceField
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.utils.translation import ugettext as _
 
-if settings.NONREL:
-    from permission_backend_nonrel.models import UserPermissionList
-
 from courses.models import Course, Semester, Assignment, AssignmentSubmission, Resource
 
 
@@ -32,18 +29,12 @@ class CourseAdminForm(ModelForm):
         super (CourseAdminForm,self ).__init__(*args,**kwargs)
 
         faculty_group = Group.objects.get_or_create(name = _('Faculty'))[0]
-        if settings.NONREL:
-            faculty_list = UserPermissionList.objects.filter(group_fk_list = faculty_group.pk)
-        else:
-            faculty_list = faculty_group.user_set.all()
+        faculty_list = faculty_group.user_set.all()
             
         self.fields['faculty'].queryset = User.objects.filter(pk__in = [faculty.pk for faculty in faculty_list])
 
         student_group = Group.objects.get_or_create(name = _('Students'))[0]
-        if settings.NONREL:
-            student_list = UserPermissionList.objects.filter(group_fk_list = student_group.pk)
-        else:
-            student_list = student_group.user_set.all()
+        student_list = student_group.user_set.all()
             
         self.fields['members'].queryset = User.objects.filter(pk__in = [student.pk for student in student_list])
 
