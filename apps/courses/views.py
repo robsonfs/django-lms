@@ -6,7 +6,6 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from libs.django_utils import render_to_response
-from libs.class_views import BreadCrumbMixin
 from libs.class_views import JSONResponseMixin
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView, CreateView, View, DeleteView
 from django.views.generic.detail import SingleObjectMixin
@@ -14,12 +13,10 @@ from django.core import exceptions
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 
-from breadcrumbs import Breadcrumb
-
 from courses.models import Course, Semester, Assignment, AssignmentSubmission, Resource
 from courses.forms import CourseAdminForm, AssignmentForm, SubmitAssignmentForm, TeamSubmitAssignmentForm, ResourceForm
 
-class CourseOverview(BreadCrumbMixin, DetailView):
+class CourseOverview(DetailView):
     name = "Course overview"
     context_object_name = "course"
     template_name = "courses/overview.html"
@@ -40,8 +37,6 @@ class CourseOverview(BreadCrumbMixin, DetailView):
         self.kwargs = kwargs
         course = self.get_object()
 
-        self.breadcrumbs.insert(0, Breadcrumb(unicode(course.semester), reverse('courses:by_semester', kwargs={'pk': course.semester.id})))
-
         if course.private:
             if request.user not in itertools.chain(course.faculty.all(), course.members.all(), course.teaching_assistants.all()):
                 raise exceptions.PermissionDenied
@@ -55,11 +50,10 @@ class CourseMembers(CourseOverview):
     def dispatch(self, request, *args, **kwargs):
         self.kwargs = kwargs
         course = self.get_object()
-        self.breadcrumbs.insert(0, Breadcrumb(unicode(course), reverse('courses:overview', kwargs={'pk': course.id})))
         return super(CourseMembers, self).dispatch(request, *args, **kwargs)
 
 # TODO: Check if user is faculty
-class CourseAdmin(BreadCrumbMixin, UpdateView):
+class CourseAdmin(UpdateView):
     name = "Course admin"
     form_class = CourseAdminForm
     template_name = "courses/admin.html"
@@ -71,7 +65,7 @@ class CourseAdmin(BreadCrumbMixin, UpdateView):
         return reverse('courses:admin', kwargs={'pk':course.id})
 
 
-class BySemesterList(BreadCrumbMixin, ListView):
+class BySemesterList(ListView):
     name = "Courses by semester"
     context_object_name = "courses"
     template_name = "courses/by_semester.html"
@@ -127,7 +121,7 @@ class ToggleMembership(View, SingleObjectMixin, JSONResponseMixin):
         context = {'status':status}
         return self.render_to_response(context)
 
-class NewCourseAssignment(BreadCrumbMixin, CreateView):
+class NewCourseAssignment(CreateView):
     name = "New Assignment"
     model = Assignment
     form_class = AssignmentForm
@@ -161,14 +155,12 @@ class NewCourseAssignment(BreadCrumbMixin, CreateView):
         self.kwargs = kwargs
         course = Course.objects.get(pk = self.kwargs['pk'])
 
-        self.breadcrumbs.insert(0, Breadcrumb(unicode(course), reverse('courses:overview', kwargs={'pk': course.id})))
-
         if request.user not in course.faculty.all():
                 raise exceptions.PermissionDenied
 
         return super(NewCourseAssignment, self).dispatch(request, *args, **kwargs)
 
-class AssignmentList(BreadCrumbMixin, ListView):
+class AssignmentList(ListView):
     name = "Assignment list"
     context_object_name = "assignments"
     template_name = "courses/assignement_list.html"
@@ -181,11 +173,9 @@ class AssignmentList(BreadCrumbMixin, ListView):
         context = super(AssignmentList, self).get_context_data(**kwargs)
         context['course'] = self.course
 
-        self.breadcrumbs.insert(0, Breadcrumb(unicode(self.course), reverse('courses:overview', kwargs={'pk': self.course.id})))
-
         return context
 
-class AssignmentOverview(BreadCrumbMixin, DetailView):
+class AssignmentOverview(DetailView):
     name = "Assignment overview"
     context_object_name = "assignment"
     template_name = "courses/assignment_overview.html"
@@ -216,15 +206,13 @@ class AssignmentOverview(BreadCrumbMixin, DetailView):
         self.kwargs = kwargs
         course = self.get_object().course
 
-        self.breadcrumbs.insert(0, Breadcrumb(unicode(course), reverse('courses:overview', kwargs={'pk': course.id})))
-
         if course.private:
             if request.user not in course.faculty and request.user not in course.members:
                 raise exceptions.PermissionDenied
 
         return super(AssignmentOverview, self).dispatch(request, *args, **kwargs)
 
-class SubmitAssignment(BreadCrumbMixin, CreateView):
+class SubmitAssignment(CreateView):
     name = "Submit assignment"
     model = AssignmentSubmission
     form_class = SubmitAssignmentForm
@@ -263,14 +251,12 @@ class SubmitAssignment(BreadCrumbMixin, CreateView):
 
         course = self.assignment.course
         
-        self.breadcrumbs.insert(0, Breadcrumb(unicode(course), reverse('courses:overview', kwargs={'pk': course.id})))
-
         if request.user not in self.assignment.course.members.all():
                 raise exceptions.PermissionDenied
 
         return super(SubmitAssignment, self).dispatch(request, *args, **kwargs)
 
-class DeleteSubmission(BreadCrumbMixin, DeleteView):
+class DeleteSubmission(DeleteView):
     name = "Delete assignment submission"
     template_name = "courses/delete_submission.html"
 
@@ -309,7 +295,7 @@ class TeamSubmitAssignment(SubmitAssignment):
 
         return form
 
-class NewCourseResource(BreadCrumbMixin, CreateView):
+class NewCourseResource(CreateView):
     name = "New course resource"
     model = Resource
     form_class = ResourceForm
@@ -348,7 +334,7 @@ class NewCourseResource(BreadCrumbMixin, CreateView):
 
         return super(NewCourseResource, self).dispatch(request, *args, **kwargs)
 
-class ResourceList(BreadCrumbMixin, ListView):
+class ResourceList(ListView):
     name = "Resource list"
     context_object_name = "resources"
     template_name = "courses/resource_list.html"
@@ -361,11 +347,9 @@ class ResourceList(BreadCrumbMixin, ListView):
         context = super(ResourceList, self).get_context_data(**kwargs)
         context['course'] = self.course
 
-        self.breadcrumbs.insert(0, Breadcrumb(unicode(self.course), reverse('courses:overview', kwargs={'pk': self.course.id})))
-
         return context
 
-class ResourceDetails(BreadCrumbMixin, DetailView):
+class ResourceDetails(DetailView):
     name = "Resource details"
     context_object_name = "resource"
     template_name = "courses/resource_details.html"
@@ -388,15 +372,13 @@ class ResourceDetails(BreadCrumbMixin, DetailView):
         self.kwargs = kwargs
         course = self.get_object().course
 
-        self.breadcrumbs.insert(0, Breadcrumb(unicode(course), reverse('courses:overview', kwargs={'pk': course.id})))
-
         if course.private:
             if request.user not in course.faculty.all() and request.user not in course.members.all():
                 raise exceptions.PermissionDenied
 
         return super(ResourceDetails, self).dispatch(request, *args, **kwargs)
 
-class DeleteResource(BreadCrumbMixin, DeleteView):
+class DeleteResource(DeleteView):
     name = "Delete resource"
     template_name = "courses/delete_resource.html"
 
@@ -424,7 +406,7 @@ class DeleteResource(BreadCrumbMixin, DeleteView):
 
         return HttpResponse(self.get_success_url())
 
-class DeleteAssignment(BreadCrumbMixin, DeleteView):
+class DeleteAssignment(DeleteView):
     name = "Delete assignment"
     template_name = "courses/delete_assignment.html"
 
@@ -454,7 +436,7 @@ class DeleteAssignment(BreadCrumbMixin, DeleteView):
 
 
 
-class EditAssignment(BreadCrumbMixin, UpdateView):
+class EditAssignment(UpdateView):
     name = "Edit assignment"
     template_name = 'courses/new_assignment.html'
     form_class = AssignmentForm
@@ -482,7 +464,7 @@ class EditAssignment(BreadCrumbMixin, UpdateView):
         return super(EditAssignment, self).dispatch(request, *args, **kwargs)
 
 
-class EditResource(BreadCrumbMixin, UpdateView):
+class EditResource(UpdateView):
     name = "Edit resource"
     template_name = 'courses/new_resource.html'
     form_class = ResourceForm
