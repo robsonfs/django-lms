@@ -328,6 +328,12 @@ form th {
   margin: 5px;
   background-color: #ccc;
 }
+.person-box .name {
+  font-size: 1.5em;
+}
+.person-box .name a {
+  text-decoration: none;
+}
 .person-box .profile-image {
   float: left;
 }
@@ -336,12 +342,6 @@ form th {
   width: 75px;
   padding-right: 10px;
   vertical-align: top;
-}
-.person-box .name {
-  font-size: 1.5em;
-}
-.person-box .name a {
-  text-decoration: none;
 }
 .profile-detail {
   padding-top: 5px;
