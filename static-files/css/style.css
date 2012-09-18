@@ -157,7 +157,7 @@ ul.nav.logged_out,
 .course-sub-info {
   font-size: 1.1em;
 }
-.odd {
+tr:hover {
   background-color: #fcfcdc;
 }
 #course-list {
@@ -165,9 +165,6 @@ ul.nav.logged_out,
 }
 #course-list h1 {
   font-size: 1em;
-}
-#course-list .odd td {
-  background-color: #fcfcdc;
 }
 #course-list table {
   min-width: 600px;
