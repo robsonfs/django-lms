@@ -20,7 +20,7 @@ from courses.views import (CourseOverview,
    DeleteAssignment)
 from django.contrib.auth.decorators import login_required
 
-urlpatterns = patterns('courses.views',
+urlpatterns = patterns('',
    url('^(?P<pk>\w+)/overview/$', login_required(CourseOverview.as_view()), name = 'overview'),
    url('^(?P<pk>\w+)/members/$', login_required(CourseMembers.as_view()), name = 'members'),
    url('^(?P<pk>\w+)/admin/$', login_required(CourseAdmin.as_view()), name = 'admin'),
