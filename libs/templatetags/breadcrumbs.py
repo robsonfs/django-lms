@@ -111,12 +111,9 @@ def create_crumb(title, url=None):
 	"""
 	Helper function
 	"""
-	crumb = """<span class="breadcrumbs-arrow">""" \
-			"""<img src="/media/images/arrow.gif" alt="Arrow">""" \
-			"""</span>"""
 	if url:
-		crumb =	"%s<a href='%s'>%s</a>" % (crumb, url, title)
+		crumb =	">><li> <a href='%s'>%s</a></li>" % (url, title)
 	else:
-		crumb = "%s&nbsp;&nbsp;%s" % (crumb, title)
+		crumb = '>><li class="active">&nbsp;&nbsp;%s</a>' % (title)
 
 	return crumb
