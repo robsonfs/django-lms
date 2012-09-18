@@ -42,8 +42,7 @@ class FacultyCourseCheckNode(template.Node):
         if user.is_authenticated:
             # Not sure if we should be checking for group. Hmmm
             if user.groups.filter(name = 'Faculty').exists():
-                if user in course.faculty.all():
-                    return self.nodelist_true.render(context)
+                return self.nodelist_true.render(context)
 
         if self.nodelist_false:
             return self.nodelist_false.render(context)
@@ -83,11 +82,7 @@ class PossibleMemberCheckNode(template.Node):
         course = resolve_variable('course', context)
         if not user.is_authenticated:
             return ''
-        try:
-            group = Group.objects.get(name='Students')
-        except Group.DoesNotExist:
-            return ''
-        if group in user.groups.all():
+        if user.groups.filter(name = 'Students').exists():
             return self.nodelist.render(context)
         return ''
 
@@ -105,6 +100,6 @@ class MemberCheckNode(template.Node):
             group = Group.objects.get(name='Student')
         except Group.DoesNotExist:
             return ''
-        if request.user in course.members.all():
+        if course.members.filter(username = request.user.username).exists():
             return self.nodelist.render(context)
         return ''
