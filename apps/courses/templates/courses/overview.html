@@ -4,6 +4,8 @@
 
 {% block breadcrumbs %}
 {% breadcrumb_url "{{ course.semester }}" courses:by_semester course.semester.id %}
+{% breadcrumb "Overview" %}
+
 {% endblock breadcrumbs %}
 
 {% block js %}
