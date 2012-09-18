@@ -38,11 +38,10 @@ class FacultyCourseCheckNode(template.Node):
     def render(self, context):
         user = resolve_variable('user', context)
         course = resolve_variable('course', context)
-        group, created = Group.objects.get_or_create(name='Faculty')
 
         if user.is_authenticated:
             # Not sure if we should be checking for group. Hmmm
-            if group in user.groups.all():
+            if user.groups.filter(name = 'Faculty').count() > 0:
                 if user in course.faculty.all():
                     return self.nodelist_true.render(context)
 
