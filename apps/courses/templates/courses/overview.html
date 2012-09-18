@@ -1,5 +1,10 @@
 {% extends "courses/course_base.html" %}
 {% load courses %}
+{% load breadcrumbs %}
+
+{% block breadcrumbs %}
+{% breadcrumb_url "{{ course.semester }}" courses:by_semester course.semester.id %}
+{% endblock breadcrumbs %}
 
 {% block js %}
 $(document).ready(function(){
