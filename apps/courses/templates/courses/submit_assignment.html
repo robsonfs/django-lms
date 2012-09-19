@@ -1,4 +1,12 @@
 {% extends "courses/course_base.html" %}
+{% load breadcrumbs %}
+
+{% block breadcrumbs %}
+{% breadcrumb_url "{{ course }}" courses:overview course.id %}
+{% breadcrumb "Submit Assignment" %}
+{% endblock breadcrumbs %}
+
+
 {% block extra_head %}
 <script type="text/javascript" src="{{ STATIC_URL }}/tiny_mce/tiny_mce.js"></script>
 <script type="text/javascript" src="{% url tinymce-js "NAME" %}"></script>

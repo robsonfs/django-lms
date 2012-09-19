@@ -1,5 +1,10 @@
 {% extends "courses/assignment_base.html" %}
 {% load courses %}
+{% load breadcrumbs %}
+{% block breadcrumbs %}
+{% breadcrumb_url "{{ course }}" courses:overview course.id %}
+{% breadcrumb "Assignment Overview" %}
+{% endblock breadcrumbs %}
 
 {% block page_title %}<span class="san-serif">{{ assignment.title }}</span>{% endblock page_title %}
 {% block assignment_content %}

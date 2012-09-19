@@ -1,4 +1,9 @@
 {% extends "courses/course_base.html" %}
+{% block breadcrumbs %}
+{% breadcrumb_url "{{ course }}" courses:overview course.id %}
+{% breadcrumb "Admin" %}
+{% endblock breadcrumbs %}
+
 {% block course_content %}
 <div id="course">
   <span class="course-sub-info">{{ course.number }} - {{ course.section }}: {{ course.semester.name }} {{ course.semester.year }}</span>

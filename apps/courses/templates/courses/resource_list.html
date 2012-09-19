@@ -1,5 +1,10 @@
 {% extends "courses/resource_base.html" %}
-{% block title %}Resources for {{ course }}{% endblock title %}
+{% load breadcrumbs %}
+
+{% block breadcrumbs %}
+{% breadcrumb_url "{{ course }}" courses:overview course.id %}
+{% breadcrumb "Resources" %}
+{% endblock breadcrumbs %}
 
 {% block resource_content %}
 <div id="resource-list">
