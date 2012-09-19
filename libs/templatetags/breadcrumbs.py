@@ -11,7 +11,6 @@ def render_title(title, context):
     if title[0] in ('"', "'") and title[-1] in ('"', "'"):
         title = title[1:-1]
 
-    print title
     t = template.Template(title)
     return t.render(context)
 
