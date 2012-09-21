@@ -35,14 +35,10 @@ class Course(models.Model):
     number = models.CharField(max_length = 10)
     description = tinymce_models.HTMLField()
     semester = models.ForeignKey(Semester)
-    if settings.NONREL:
-        faculty = fields.ListField(ForeignKey(User, related_name = _('Faculty')))
-        teaching_assistants = fields.ListField(ForeignKey(User, related_name = _('Teaching Assistants')))
-        members = fields.ListField(ForeignKey(User, related_name = _('Members')))
-    else:
-        faculty = models.ManyToManyField(User, related_name = _('Faculty'))
-        teaching_assistants = models.ManyToManyField(User, related_name = _('Teaching Assistants'))
-        members = models.ManyToManyField(User, related_name = _('Members'))
+
+    faculty = models.ManyToManyField(User, related_name = _('Faculty'))
+    teaching_assistants = models.ManyToManyField(User, related_name = _('Teaching Assistants'))
+    members = models.ManyToManyField(User, related_name = _('Members'))
 
 
     private = models.BooleanField(default=False, blank=True)
