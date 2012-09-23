@@ -10,6 +10,11 @@ from django.contrib.auth.models import User
 from django.contrib.localflavor.us.models import PhoneNumberField
 
 from libs.fields import JSONField
+from courses.models import Semester
+
+class Degree(models.Model):
+    name = models.CharField(max_length=100)
+    abbreviation = models.CharField(max_length=100)
 
 class Profile(models.Model):
     GENDER_CHOICES = (
@@ -22,6 +27,9 @@ class Profile(models.Model):
     resume = models.FileField(_('resume'), upload_to='resumes/', blank=True)
     data = JSONField(null = True, blank = True)
 
+    # Academics
+    degrees = models.ManyToManyField(Degree, through='ProfileDegree')
+    
     class Meta:
         verbose_name = _('user profile')
         verbose_name_plural = _('user profiles')
@@ -39,6 +47,13 @@ class Profile(models.Model):
         if (self.mobile and self.mobile_provider):
             return u"%s@%s" % (re.sub('-', '', self.mobile), self.mobile_provider.domain)
 
+
+class ProfileDegree(models.Model):
+    graduation = models.ForeignKey(Semester)
+    degree = models.ForeignKey(Degree)
+    profile = models.ForeignKey(Profile)
+
+
 # We may use this later
 
 # class MobileProvider(models.Model):
@@ -55,6 +70,8 @@ class Profile(models.Model):
 #         return u"%s" % self.title
 
 
+    
+            
 class ServiceType(models.Model):
     """Service type model"""
     title = models.CharField(_('title'), blank=True, max_length=100)
