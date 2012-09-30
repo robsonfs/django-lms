@@ -26,26 +26,22 @@ Installation
 
 - Clone the repo
 
- `git clone git@github.com:emperorcezar/django-lms.git`
+ `git clone git@github.com:instituteofdesign/django-lms.git`
 
 - Use the requirements file in the repo
 
  `pip install -r django-lms/requirements.txt`
 
-- The settings files included I've setup using the [layout](http://blog.zacharyvoase.com/2010/02/03/django-project-conventions/) suggested by Zachary Voase.
+- Django-lms is setup for using 12factor type configuration. This means that all localized settings come from the environment. I recommend using [Autoenv](https://github.com/kennethreitz/autoenv) for local development. Else, [Honcho](https://github.com/nickstenning/honcho) or [foreman](http://ddollar.github.com/foreman/) in production. I have placed an example.env file here to show you the settings. Note: I don't think you need the export for honcho/forman
 
- You'll notice the common.py settings file calls execfile to `../secret_settings.py`. I'm curently storing this in the directory above the repo for things such as the secret key. You'll need to supply your own.
-
-- Create the directory for the database (for development) or edit `settings/common.py` to setup the database of your choosing
-
- `mkdir db/`
+- The db defaults to a local postgres install. For development, I strongly recommend the [postgres.app](postgresapp.com) project.
 
 - Sync the database
 
- `python manage.py syncdb --settings=settings.development`
+ `python manage.py syncdb`
 
 - Run the dev server
 
- `python manage.py runserver --settings=settings.development`
+ `python manage.py runserver`
 
 The application is now installed. You'll notice that the springboard show no Icons. Since these are customizable, you'll need to set them yourself. I hope to change this soon, to set some defaults. This can be done from the admin.
