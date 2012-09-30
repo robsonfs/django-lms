@@ -174,7 +174,7 @@ FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 
 BROKER_URL = os.environ.get('BROKEN_URL', "mongodb://localhost:27017/celery")
 BROKER_VHOST = os.environ.get('BROKER_VHOST', "/")
-DEBUG = bool(os.environ.get('DEBUG', False))
+DEBUG = True if os.environ.get('DEBUG', False) == 'True' else False
 TEMPLATE_DEBUG = DEBUG
 
 
