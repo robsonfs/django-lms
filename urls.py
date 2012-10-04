@@ -2,6 +2,7 @@ from django.conf.urls.defaults import *
 from django.conf import settings
 from libs.api import UserResource
 from tastypie.api import Api
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 api = Api(api_name='api')
 api.register(UserResource())
@@ -35,5 +36,6 @@ if settings.DEBUG:
                             (r'^media/(?P<path>.*)$', 'django.views.static.serve',
                              {'document_root': settings.MEDIA_ROOT,
                               'show_indexes': True}),
-                            )
+    )
+    urlpatterns += staticfiles_urlpatterns()
 
