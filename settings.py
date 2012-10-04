@@ -113,6 +113,8 @@ INSTALLED_APPS = [
     # Admin comes last so our apps can override some templates
     'django.contrib.admin',
 
+    'gunicorn',
+    
     ]
 
 AUTHENTICATION_BACKENDS = (
@@ -180,7 +182,6 @@ TEMPLATE_DEBUG = DEBUG
 
 if DEBUG:
     CELERY_ALWAYS_EAGER = True
-    INSTALLED_APPS.append('devserver')
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 TYPEKIT_URL = os.environ.get('TYPEKIT_URL')
