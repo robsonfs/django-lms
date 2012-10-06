@@ -60,13 +60,7 @@
             {% if user.is_authenticated %}
             <div class="span4 offset5" id="userbox">
 	          <div class="userbox">
-                <ul class="jd_menu" id="user-menu">
-	              <li><a href="{% url profiles:detail user %}">{{ user.first_name }} {{ user.last_name }}</a> <span class="menu-triangle">&#x25bc;</span>
-	                <ul>
-	                  <li><a href="{% url profiles:edit user %}">Edit profile</a></li>
-	                </ul>
-	              </li>
-	            </ul> | Account Settings | <a href="{% url logout %}">Log Out</a>
+	              <a href="{% url profiles:detail user %}">{{ user.first_name }} {{ user.last_name }}</a> | Account Settings | <a href="{% url logout %}">Log Out</a>
 	          </div>
             </div>
 	        {% endif %}
