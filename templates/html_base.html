@@ -59,9 +59,9 @@
             </div>
             {% if user.is_authenticated %}
             <div class="span4 offset5" id="userbox">
-	          <div class="userbox">
-	              <a href="{% url profiles:detail user %}">{{ user.first_name }} {{ user.last_name }}</a> | Account Settings | <a href="{% url logout %}">Log Out</a>
-	          </div>
+	          <span class="userbox">
+                <a href="{% url profiles:detail user %}">{{ user.first_name }} {{ user.last_name }}</a>{% if user.is_staff %} | <a href="{% url admin:index %}">Admin</a>{% endif %} | <a href="{% url logout %}">Log Out</a>
+	          </span>
             </div>
 	        {% endif %}
 	      </div>
