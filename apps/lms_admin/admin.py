@@ -5,7 +5,16 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
+from profiles.models import UserDegree
+
+class DegreeInline(admin.StackedInline):
+    model = UserDegree
+    extra = 1
+
 class BetterUserAdmin(UserAdmin):
+    inlines = [
+        DegreeInline,
+    ]
     def get_form(self, request, obj=None, **kwargs):
         # Get form from original UserAdmin.
         form = super(BetterUserAdmin, self).get_form(request, obj, **kwargs)
