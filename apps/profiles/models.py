@@ -27,9 +27,6 @@ class Profile(models.Model):
     resume = models.FileField(_('resume'), upload_to='resumes/', blank=True)
     data = JSONField(null = True, blank = True)
 
-    # Academics
-    degrees = models.ManyToManyField(Degree, through='ProfileDegree')
-    
     class Meta:
         verbose_name = _('user profile')
         verbose_name_plural = _('user profiles')
@@ -48,10 +45,10 @@ class Profile(models.Model):
             return u"%s@%s" % (re.sub('-', '', self.mobile), self.mobile_provider.domain)
 
 
-class ProfileDegree(models.Model):
+class UserDegree(models.Model):
     graduation = models.ForeignKey(Semester)
     degree = models.ForeignKey(Degree)
-    profile = models.ForeignKey(Profile)
+    user = models.ForeignKey(User)
 
 
 # We may use this later

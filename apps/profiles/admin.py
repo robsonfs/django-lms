@@ -3,5 +3,5 @@ from profiles.models import *
 
 admin.site.register(Profile)
 admin.site.register(Degree)
-admin.site.register(ProfileDegree)
+admin.site.register(UserDegree)
 admin.site.register(Service)
