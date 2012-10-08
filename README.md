@@ -32,6 +32,9 @@ Installation
 
  `pip install -r django-lms/requirements.txt`
 
+Configuration
+-------------
+
 - Django-lms is setup for using 12factor type configuration. This means that all localized settings come from the environment. I recommend using [Autoenv](https://github.com/kennethreitz/autoenv) for local development. Else, [Honcho](https://github.com/nickstenning/honcho) or [foreman](http://ddollar.github.com/foreman/) in production. I have placed an example.env file here to show you the settings. Note: I don't think you need the export for honcho/forman
 
 - The db defaults to a local postgres install. For development, I strongly recommend the [postgres.app](postgresapp.com) project.
@@ -45,3 +48,7 @@ Installation
  `python manage.py runserver`
 
 The application is now installed. You'll notice that the springboard show no Icons. Since these are customizable, you'll need to set them yourself. I hope to change this soon, to set some defaults. This can be done from the admin.
+
+Logo
+----
+Django-lms comes with a basic logo. It's in images unders static-files. I recommend using your own logo in deployment.
