@@ -75,19 +75,19 @@ ul.nav.logged_out,
   border-bottom-color: #ddd;
 }
 .userbox {
-    -moz-border-radius-topleft: 0;
-    -moz-border-radius-topright: 0;
-    -webkit-border-top-left-radius: 0;
-    -webkit-border-top-right-radius: 0;
-    border-top: none;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    font-size: 12px;
-    padding: 8px 5px 7px 10px;
-    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#fcfcfc', endColorstr='#ececec');
-    background: -webkit-gradient(linear, 0% 0, 0% 100%, from(#fcfcfc), to(#e8e8e8));
-    background: -moz-linear-gradient(270deg, #fcfcfc, #ececec);
-    float:right;
+  -moz-border-radius-topleft: 0;
+  -moz-border-radius-topright: 0;
+  -webkit-border-top-left-radius: 0;
+  -webkit-border-top-right-radius: 0;
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  font-size: 12px;
+  padding: 8px 5px 7px 10px;
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#fcfcfc', endColorstr='#ececec');
+  background: -webkit-gradient(linear, 0% 0, 0% 100%, from(#fcfcfc), to(#e8e8e8));
+  background: -moz-linear-gradient(270deg, #fcfcfc, #ececec);
+  float: right;
 }
 .userbox .avatarname {
   display: inline;
@@ -100,12 +100,6 @@ ul.nav.logged_out,
   margin-top: -3px;
   vertical-align: middle;
 }
-
-.userbox .content {
-    float:right;
-    width:auto;
-}
-
 .pagehead ul.tabs {
   position: relative;
   margin: 10px 0 0 0;
