@@ -4,3 +4,5 @@ local_settings.py
 .#*
 .env
 Procfile
+celerybeat-schedule.db
+celerybeat.pid
