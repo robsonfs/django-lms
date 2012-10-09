@@ -179,8 +179,7 @@ FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 BROKER_URL = os.environ.get('BROKEN_URL', "amqp://guest:guest@localhost:5672//")
 BROKER_VHOST = os.environ.get('BROKER_VHOST', "/")
 
-if DEBUG:
-    CELERY_ALWAYS_EAGER = True
+CELERY_ALWAYS_EAGER = True if os.environ.get('CELERY_ALWAYS_EAGER', False) == 'True' else False
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 TYPEKIT_URL = os.environ.get('TYPEKIT_URL')
