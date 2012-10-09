@@ -173,7 +173,7 @@ DATABASES = {'default': dj_database_url.config(default='postgres://localhost:543
 
 FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 
-BROKER_URL = os.environ.get('BROKEN_URL', "mongodb://localhost:27017/celery")
+BROKER_URL = os.environ.get('BROKEN_URL', "amqp://guest:guest@localhost:5672//")
 BROKER_VHOST = os.environ.get('BROKER_VHOST', "/")
 DEBUG = True if os.environ.get('DEBUG', False) == 'True' else False
 TEMPLATE_DEBUG = DEBUG
