@@ -10,6 +10,9 @@ djcelery.setup_loader()
 
 # Django settings for intranet project.
 
+DEBUG = True if os.environ.get('DEBUG', False) == 'True' else False
+TEMPLATE_DEBUG = DEBUG
+
 ## Directories
 SETTINGS_DIRECTORY = os.path.dirname( os.path.abspath(__file__) )
 PROJECT_ROOT = SETTINGS_DIRECTORY
@@ -175,9 +178,6 @@ FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 
 BROKER_URL = os.environ.get('BROKEN_URL', "amqp://guest:guest@localhost:5672//")
 BROKER_VHOST = os.environ.get('BROKER_VHOST', "/")
-DEBUG = True if os.environ.get('DEBUG', False) == 'True' else False
-TEMPLATE_DEBUG = DEBUG
-
 
 if DEBUG:
     CELERY_ALWAYS_EAGER = True
