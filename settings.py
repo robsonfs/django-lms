@@ -180,6 +180,7 @@ BROKER_URL = os.environ.get('BROKEN_URL', "amqp://guest:guest@localhost:5672//")
 BROKER_VHOST = os.environ.get('BROKER_VHOST', "/")
 
 CELERY_ALWAYS_EAGER = True if os.environ.get('CELERY_ALWAYS_EAGER', False) == 'True' else False
+CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 TYPEKIT_URL = os.environ.get('TYPEKIT_URL')
