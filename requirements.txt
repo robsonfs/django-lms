@@ -12,4 +12,5 @@ django-tastypie
 celery-with-mongodb
 django-social-auth
 -e git+git://github.com/emperorcezar/django-recurrence#egg=recurrence
+psycopg2
 gunicorn
