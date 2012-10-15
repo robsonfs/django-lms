@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/instituteofdesign/django-lms.png)](https://travis-ci.org/instituteofdesign/django-lms)
+
 Django-lms
 =================================
 
