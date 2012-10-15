@@ -58,6 +58,10 @@ class UserDegree(models.Model):
     degree = models.ForeignKey(Degree)
     user = models.ForeignKey(User)
 
+    @property
+    def is_expected(self):
+        return self.graduation.end > datetime.date.today()
+
     def __unicode__(self):
         return "{} {}".format(self.degree.name, self.graduation)
 
