@@ -25,6 +25,14 @@ class Semester(models.Model):
             raise ValueError, "Start date must be before end date."
         return super(Semester, self).save(*args, **kwargs)
 
+    @property
+    def is_future(self):
+        '''
+        Checks if the start date is in the future
+        '''
+        return self.start > datetime.date.today()
+        
+        
     def __unicode__(self):
         return "%s %s" % (self.name, self.year)
 
