@@ -63,7 +63,10 @@ class UserDegree(models.Model):
         return self.graduation.end > datetime.date.today()
 
     def __unicode__(self):
-        return "{} {}".format(self.degree.name, self.graduation)
+        if not self.is_expected :
+            return "{} {}".format(self.degree.name, self.graduation)
+        else:
+            return "{} {} (expected)".format(self.degree.name, self.graduation)
 
 # We may use this later
 
