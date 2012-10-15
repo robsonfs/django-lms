@@ -9,6 +9,16 @@ It aims to be a simple system. Starting with a springboard interface that is eas
 
 If you're interested in helping, please drop me a line at cezar@id.iit.edu
 
+Requirements
+------------
+
+Requires Python 2.7
+
+Rest of the requirements should be installable with pip.
+
+Uses Postgres by default. As of now there isn't anything Postgres specific in the codebase so it should be portable to Mysql just by flipping the database engine.
+
+
 Installation
 ------------
 
