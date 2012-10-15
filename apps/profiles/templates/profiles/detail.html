@@ -18,7 +18,7 @@
     </h1>
     {% if profile.user.userdegree_set.all.count > 0 %}
       {% for degree in profile.user.userdegree_set.all %}
-        {{ degree }}
+        {{ degree }}<br>
       {% endfor %}
     {% endif %}    
     {% if profile.data.biography %}
