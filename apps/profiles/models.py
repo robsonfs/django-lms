@@ -58,6 +58,8 @@ class UserDegree(models.Model):
     degree = models.ForeignKey(Degree)
     user = models.ForeignKey(User)
 
+    def __unicode__(self):
+        return "{} {}".format(self.degree.name, self.graduation)
 
 # We may use this later
 

@@ -15,7 +15,12 @@
     <h1>Profile for {{ profile.user.get_full_name }}  {% if profile.user == request.user %}
       <a href="{% url profiles:edit profile.user %}" class="btn btn-primary edit-button">Edit</a>
   {% endif %}
-</h1>
+    </h1>
+    {% if profile.user.userdegree_set.all.count > 0 %}
+      {% for degree in profile.user.userdegree_set.all %}
+        {{ degree }}
+      {% endfor %}
+    {% endif %}    
     {% if profile.data.biography %}
     <h3>Biography</h3>
     <p>{{ profile.data.biography|safe }}</p>
