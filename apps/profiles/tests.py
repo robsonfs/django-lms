@@ -1,5 +1,6 @@
 import sys
 import os
+import datetime
 
 from django.utils import unittest
 import libs.test_utils as test_utils
@@ -8,7 +9,7 @@ from django.core.urlresolvers import reverse
 
 from django.contrib.auth.models import User
 
-from profiles.models import Profile
+from profiles.models import Profile, Degree, UserDegree
 
 class ProfilesTest(test_utils.AuthenticatedTest):
     '''
@@ -34,5 +35,26 @@ class ProfilesTest(test_utils.AuthenticatedTest):
                                 })
 
         self.assertEquals(response.status_code, 302)
-    
+    def test_alum(self):
+        from apps.courses.models import Semester
+        # User shouldn't be a grad yet
+        profile = Profile.objects.get(user = self.user)
+        self.assertEquals(profile.is_alum, False)
+
+        # Add an old degree
+        last_year = datetime.datetime.now() - datetime.timedelta(days = 365)
+        semester = Semester.objects.create(name = 'Old',
+                                           year = last_year.year,
+                                           start = last_year,
+                                           end = (last_year + datetime.timedelta(days = 30)),
+        )
+
+        degree = Degree.objects.create(name = 'Bachelor or Science', abbreviation = 'B.S.')
+        user_degree = UserDegree.objects.create(user = self.user,
+                                                degree = degree,
+                                                graduation = semester,
+        )
+
+        self.assertEquals(profile.is_alum, True)
+        
     

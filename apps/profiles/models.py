@@ -44,6 +44,14 @@ class Profile(models.Model):
         if (self.mobile and self.mobile_provider):
             return u"%s@%s" % (re.sub('-', '', self.mobile), self.mobile_provider.domain)
 
+    @property
+    def is_alum(self):
+        degrees = UserDegree.objects.filter(user = self.user)
+        if len(degrees) > 0:
+            for degree in degrees:
+                if degree.graduation.end < datetime.datetime.now().date():
+                    return True
+        return False
 
 class UserDegree(models.Model):
     graduation = models.ForeignKey(Semester)
