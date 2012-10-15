@@ -6,22 +6,22 @@ import libs.test_utils as test_utils
 from django.test.client import Client
 from django.core.urlresolvers import reverse
 
-from django.contrib.auth.models import User
-
-from profiles.models import Profile
+from django.contrib.auth import get_user_model
 
 class ProfilesTest(test_utils.AuthenticatedTest):
     '''
     Tests for our profiles application.
     '''
     def test_create(self):
-        user = User(username = 'profiletest')
+        user = get_user_model()(username = 'profiletest')
         user.save()
 
-        # Test if we have a profile created. It should be created when a user is saved.
-        profile = Profile.objects.get(user = user)
-        assert profile
+        # Just make sure our fields exist in the custom user model
+        user.mugshot
+        user.resume
+        user.biography
 
+        
     def test_edit(self):
         response = self.c.get(reverse('profiles:edit', kwargs={'username':self.user.username}))
         self.assertEquals(response.status_code, 200)

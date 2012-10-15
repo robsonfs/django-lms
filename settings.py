@@ -13,6 +13,8 @@ djcelery.setup_loader()
 DEBUG = True if os.environ.get('DEBUG', False) == 'True' else False
 TEMPLATE_DEBUG = DEBUG
 
+AUTH_USER_MODEL = 'profiles.LMSUser'
+
 ## Directories
 SETTINGS_DIRECTORY = os.path.dirname( os.path.abspath(__file__) )
 PROJECT_ROOT = SETTINGS_DIRECTORY

@@ -7,10 +7,6 @@ from django.utils.translation import ugettext as _
 from tinymce import models as tinymce_models
 import recurrence.fields
 
-if settings.NONREL:
-    from djangotoolbox import fields
-    from libs.utils.fields import ForeignKey
-
 class Semester(models.Model):
     name = models.CharField(max_length = 200)
     year = models.IntegerField()
@@ -36,9 +32,9 @@ class Course(models.Model):
     description = tinymce_models.HTMLField()
     semester = models.ForeignKey(Semester)
 
-    faculty = models.ManyToManyField(User, related_name = _('Faculty'))
-    teaching_assistants = models.ManyToManyField(User, related_name = _('Teaching Assistants'))
-    members = models.ManyToManyField(User, related_name = _('Members'))
+    faculty = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name = _('Faculty'))
+    teaching_assistants = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name = _('Teaching Assistants'))
+    members = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name = _('Members'))
 
 
     private = models.BooleanField(default=False, blank=True)
@@ -71,10 +67,7 @@ class Assignment(models.Model):
 
 
 class AssignmentSubmission(models.Model):
-    if settings.NONREL:
-        users = fields.ListField(ForeignKey(User, related_name = 'submitters'))
-    else:
-        users = models.ManyToManyField(User, related_name = 'submitters')
+    users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name = 'submitters')
 
     assignment = models.ForeignKey(Assignment)
     link = models.URLField(blank = True)

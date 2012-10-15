@@ -6,7 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import Group, User
 from tinymce import models as tinymce_models
 from django.db.models import permalink
-from django.contrib.auth.models import User
+from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 from django.contrib.localflavor.us.models import PhoneNumberField
 
 from libs.fields import JSONField
@@ -16,13 +17,12 @@ class Degree(models.Model):
     name = models.CharField(max_length=100)
     abbreviation = models.CharField(max_length=100)
 
-class Profile(models.Model):
+class LMSUser(AbstractUser):
     GENDER_CHOICES = (
         (1, 'Male'),
         (2, 'Female'),
     )
 
-    user = models.ForeignKey(User, unique=True)
     mugshot = models.ImageField(_('mugshot'), upload_to='mugshots/', blank=True)
     resume = models.FileField(_('resume'), upload_to='resumes/', blank=True)
     data = JSONField(null = True, blank = True)
@@ -33,11 +33,11 @@ class Profile(models.Model):
         db_table = 'user_profiles'
 
     def __unicode__(self):
-        return u"%s" % self.user.get_full_name()
+        return u"%s" % self.get_full_name()
 
     @permalink
     def get_absolute_url(self):
-        return ('profile_detail', None, { 'username': self.user.username })
+        return ('profile_detail', None, { 'username': self.username })
 
     @property
     def sms_address(self):
@@ -48,7 +48,7 @@ class Profile(models.Model):
 class UserDegree(models.Model):
     graduation = models.ForeignKey(Semester)
     degree = models.ForeignKey(Degree)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
 
 # We may use this later
@@ -72,7 +72,7 @@ class UserDegree(models.Model):
 class ServiceType(models.Model):
     """Service type model"""
     title = models.CharField(_('title'), blank=True, max_length=100)
-    url = models.URLField(_('url'), blank=True, help_text='URL with a single \'{user}\' placeholder to turn a username into a service URL.', verify_exists=False)
+    url = models.URLField(_('url'), blank=True, help_text='URL with a single \'{user}\' placeholder to turn a username into a service URL.')
 
     class Meta:
         verbose_name = _('service type')
@@ -86,7 +86,7 @@ class ServiceType(models.Model):
 class Service(models.Model):
     """Service model"""
     service = models.ForeignKey(ServiceType)
-    profile = models.ForeignKey(Profile)
+    profile = models.ForeignKey(settings.AUTH_USER_MODEL)
     username = models.CharField(_('Name or ID'), max_length=100, help_text="Username or id to be inserted into the service url.")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
@@ -108,10 +108,3 @@ class Service(models.Model):
         return u"%s" % self.service.title
 
 
-def user_post_save(sender, instance, **kwargs):
-    profile, new = Profile.objects.get_or_create(user=instance)
-    if new:
-        profile.data = {}
-        profile.save()
-
-models.signals.post_save.connect(user_post_save, sender=User)

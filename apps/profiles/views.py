@@ -5,14 +5,15 @@ from libs.django_utils import render_to_response
 from django.views.generic.edit import FormView
 from django.views.generic import DetailView
 from django.core import exceptions
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
-from profiles.models import Profile
-from profiles.forms import ProfileForm
+
+from profiles.models import LMSUser
+from profiles.forms import LMSUserForm
 #from courses.forms import CourseAdminForm, NewAssignmentForm, SubmitAssignmentForm, TeamSubmitAssignmentForm
 
 class ProfileEdit(FormView):
-    form_class = ProfileForm
+    form_class = LMSUserForm
     template_name = "profiles/edit.html"
 
     def form_valid(self, form):
@@ -30,7 +31,7 @@ class ProfileEdit(FormView):
         return context
 
     def get_profile(self):
-        return Profile.objects.get(user = self.request.user)
+        return self.request.user
 
     def get_initial(self):
         """
@@ -50,7 +51,7 @@ class ProfileDetail(DetailView):
     def get_object(self):
         username = self.kwargs.get('username', None)
 
-        profile = Profile.objects.get(user = User.objects.get(username = username))
+        profile = get_user_model().objects.get(username = username)
         return profile
 
     def get_context_data(self, **kwargs):

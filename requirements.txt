@@ -1,4 +1,4 @@
-django<1.5
+-e git+git://github.com/django/django#egg=django
 dj-database-url
 django-mptt
 django-tinymce==1.5.1a1
