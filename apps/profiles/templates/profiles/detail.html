@@ -3,15 +3,15 @@
 {% block title %}Profile for {{ profile.user }}{% endblock title %}
 {% block content %}
 
-<div class="container profile-detail">
-  <div class="span-5 profile-image">
+<div class="row profile-detail">
+  <div class="span2 profile-image">
   {% if profile.mugshot %}
     <img src="{{ profile.mugshot.url }}" alt="profile image">
   {% else %}
     <img src="{{ STATIC_URL}}images/profile-empty-head.gif" alt="profile image">
   {% endif %}
  </div>
-  <div class="span-41 last profile-text">
+  <div class="span10 profile-text">
     <h1>Profile for {{ profile.user.get_full_name }}  {% if profile.user == request.user %}
       <a href="{% url profiles:edit profile.user %}" class="btn btn-primary edit-button">Edit</a>
   {% endif %}
