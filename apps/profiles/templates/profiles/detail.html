@@ -16,6 +16,9 @@
       <a href="{% url profiles:edit profile.user %}" class="btn btn-primary edit-button">Edit</a>
   {% endif %}
     </h1>
+    {% if profile.is_alum %}
+      Alumni<br>      
+    {% endif %}    
     {% if profile.user.userdegree_set.all.count > 0 %}
       {% for degree in profile.user.userdegree_set.all %}
         {{ degree }}<br>
