@@ -12,6 +12,7 @@ from django.views.generic.detail import SingleObjectMixin
 from django.core import exceptions
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django_statsd.clients import statsd
 
 from courses.models import Course, Semester, Assignment, AssignmentSubmission, Resource
 from courses.forms import CourseAdminForm, AssignmentForm, SubmitAssignmentForm, TeamSubmitAssignmentForm, ResourceForm
@@ -241,6 +242,9 @@ class SubmitAssignment(CreateView):
         self.object.save()
         self.object.users.add(self.request.user)
 
+        if self.object.file:
+            statsd.incr("courses.{}.{}.assignments.storage".format(self.object.assignment.course, self.object.assignment.course.semester, self.object.file.size))
+        
         return super(SubmitAssignment, self).form_valid(form)
 
     # Overriding the dispatch to check permissions
