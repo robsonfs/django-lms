@@ -102,6 +102,7 @@ INSTALLED_APPS = [
     'mptt',
     'recurrence',
     'social_auth',
+    'django_statsd',
         
     # Local apps
     
@@ -188,4 +189,9 @@ SITE_ID = os.environ.get('SITE_ID')
 FACEBOOK_APP_ID = os.environ.get('FACEBOOK_APP_ID')
 FACEBOOK_API_SECRET = os.environ.get('FACEBOOK_API_SECRET')
 
+STATSD_CLIENT = os.environ.get('STATSD_CLIENT', 'django_statsd.clients.null')
 
+MIDDLEWARE_CLASSES = (
+    'django_statsd.middleware.GraphiteRequestTimingMiddleware',
+    'django_statsd.middleware.GraphiteMiddleware',
+) + MIDDLEWARE_CLASSES
