@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 from courses.views import (CourseOverview,
    BySemesterList,
+   SemesterList,
    CourseDropPage,
    CourseAdmin,
    ToggleMembership,
@@ -23,6 +24,7 @@ from django.contrib.auth.decorators import login_required
 urlpatterns = patterns('',
     url('^$', login_required(CourseDropPage.as_view()), name = 'drop_page'),
     url('^(?P<pk>\w+)/overview/$', login_required(CourseOverview.as_view()), name = 'overview'),
+    url('^semester/browse/$', login_required(SemesterList.as_view()), name = 'semester_list'),
     url('^semester/(?P<pk>\w+)/$', login_required(BySemesterList.as_view()), name = 'by_semester'),
 
     url('^(?P<pk>\w+)/members/$', login_required(CourseMembers.as_view()), name = 'members'),

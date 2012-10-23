@@ -82,7 +82,13 @@ class BySemesterList(ListView):
         
         return context
 
+class SemesterList(ListView):
+    name = "Semester List"
+    context_object_name = "semesters"
+    template_name = "courses/semester_list.html"
+    queryset = Semester.objects.all()
 
+        
 class CourseDropPage(RedirectView):
     '''
     Gets the current semester and redirects to its page

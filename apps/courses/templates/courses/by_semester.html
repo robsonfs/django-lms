@@ -10,6 +10,7 @@
 <div id="course-list">
   {% if 'Admissions' in groups %}<a href="{% url admin:courses_course_changelist %}"><button class="right btn">Admin Courses</button></a>{% endif %}
   <h1>Courses for {{ semester }}</h1>
+  <a href="{% url courses:semester_list %}">Browse Semesters</a>  
   <table>
     <thead>
       <tr>
