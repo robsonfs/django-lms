@@ -19,4 +19,5 @@ class Alert(TimeStampedModel):
     title = models.CharField(max_length = 200)
     details = tinymce_models.HTMLField(blank = True)
     level = models.CharField(max_length = 200, choices = ALERT_LEVELS, blank = True)
+    sticky = models.BooleanField(default = False)
 

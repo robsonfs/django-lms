@@ -1,4 +1,6 @@
 <div class="alert {% if alert.level %}alert-{{ alert.level }}{% endif %}" data-alert="alert" data-id="{{ alert.id }}">
-  <a class="close" data-dismiss="alert" href="#">&times;</a>
+  {% if not alert.sticky %}
+    <a class="close" data-dismiss="alert" href="#">&times;</a>  
+  {% endif %}  
   {{ alert.title }}
 </div>
