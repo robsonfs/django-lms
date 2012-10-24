@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+
+from django_extensions.db.models import TimeStampedModel
 from tinymce import models as tinymce_models
 
 ALERT_LEVELS = (
@@ -10,7 +12,7 @@ ALERT_LEVELS = (
     ('danger','Danger'),
     )
 
-class Alert(models.Model):
+class Alert(TimeStampedModel):
     # This is char because there are a wide variety that can send
     sent_by = models.CharField(max_length = 200)
     sent_to = models.ForeignKey(User)
