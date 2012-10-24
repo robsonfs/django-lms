@@ -15,3 +15,4 @@ django-social-auth
 psycopg2
 gunicorn
 django-statsd-mozilla
+django-extensions

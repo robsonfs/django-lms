@@ -103,6 +103,7 @@ INSTALLED_APPS = [
     'recurrence',
     'social_auth',
     'django_statsd',
+    'django_extensions',
         
     # Local apps
     
