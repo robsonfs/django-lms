@@ -26,6 +26,7 @@ class Profile(models.Model):
     mugshot = models.ImageField(_('mugshot'), upload_to='mugshots/', blank=True)
     resume = models.FileField(_('resume'), upload_to='resumes/', blank=True)
     data = JSONField(null = True, blank = True)
+    preferences = JSONField(null = True, blank = True)
 
     class Meta:
         verbose_name = _('user profile')
@@ -129,6 +130,7 @@ def user_post_save(sender, instance, **kwargs):
     profile, new = Profile.objects.get_or_create(user=instance)
     if new:
         profile.data = {}
+        profile.preferences = {}
         profile.save()
 
 models.signals.post_save.connect(user_post_save, sender=User)
