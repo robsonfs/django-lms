@@ -22,7 +22,7 @@ class Profile(models.Model):
         (2, 'Female'),
     )
 
-    user = models.ForeignKey(User, unique=True)
+    user = models.OneToOneField(User, related_name = 'profile')
     mugshot = models.ImageField(_('mugshot'), upload_to='mugshots/', blank=True)
     resume = models.FileField(_('resume'), upload_to='resumes/', blank=True)
     data = JSONField(null = True, blank = True)
