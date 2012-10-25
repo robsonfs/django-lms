@@ -173,6 +173,8 @@ TINYMCE_DEFAULT_CONFIG = {
     'theme_advanced_toolbar_align' : "left",
     }
 
+ALERTS_FROM = os.environ.get('ALERTS_FROM', "donotreply@example.com")
+
 DATABASES = {'default': dj_database_url.config(default='postgres://localhost:5432/django_lms')}
 
 FACEBOOK_EXTENDED_PERMISSIONS = ['email']

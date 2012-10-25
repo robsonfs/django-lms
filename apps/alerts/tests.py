@@ -117,3 +117,26 @@ class AlertTest(test_utils.AuthenticatedTest):
         alert_groups(alert, [group1, group2])
         
         self.assertEquals(len(Alert.objects.all()), 50)
+
+    def test_alert_email(self):
+        """
+        Tests the ability of the system to send alert emails
+        """
+        from django.core import mail
+        from profiles.models import Profile
+        
+        self.user.profile.preferences['email_alerts'] = True
+        self.user.profile.save()
+
+        self.assertEquals(len(mail.outbox), 0)
+        
+        alert = Alert.objects.create(sent_by = 'Tester',
+                                     title = 'Test title',
+                                     details = 'No details',
+                                     level = 'Notice',
+                                     sent_to = self.user,
+                                 )
+        
+        self.assertEquals(len(mail.outbox), 1)
+
+
