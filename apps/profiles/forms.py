@@ -14,3 +14,10 @@ class ProfileForm(forms.Form):
 
         profile.data['biography'] = self.cleaned_data['biography']
         profile.save()
+
+class PreferenceForm(forms.Form):
+    email_alerts = forms.BooleanField(label = 'Email new notifications and alerts to me')
+
+    def save(self, profile):
+        profile.preferences['email_alerts'] = self.cleaned_data['email_alerts']
+        profile.save()
