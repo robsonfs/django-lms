@@ -58,3 +58,12 @@ class ProfilesTest(test_utils.AuthenticatedTest):
         self.assertEquals(profile.is_alum, True)
         
     
+    def test_edit_preferences(self):
+        response = self.c.get(reverse('profiles:preference_edit', kwargs={'username':self.user.username}))
+        self.assertEquals(response.status_code, 200)
+
+
+        response = self.c.post(reverse('profiles:preference_edit', kwargs={'username':self.user.username}),
+                               {'email_alerts':'1',})
+
+        self.assertEquals(response.status_code, 302)
