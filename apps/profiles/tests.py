@@ -67,3 +67,4 @@ class ProfilesTest(test_utils.AuthenticatedTest):
                                {'email_alerts':'1',})
 
         self.assertEquals(response.status_code, 302)
+        self.assertEquals(self.user.profile.preferences['email_alerts'], True)
