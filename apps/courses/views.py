@@ -106,7 +106,7 @@ class CourseDropPage(RedirectView):
 
     def get_redirect_url(self, **kwargs):
         try:
-            semester = Semester.objects.filter(start__lte = datetime.date.today(), end__gte = datetime.date.today())[0]
+            semester = Semester.get_current()
         except IndexError:
             # Get the latest semester and use that
             try:
