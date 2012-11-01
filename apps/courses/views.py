@@ -7,7 +7,15 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404
 from libs.django_utils import render_to_response
 from libs.class_views import JSONResponseMixin
-from django.views.generic import DetailView, ListView, RedirectView, UpdateView, CreateView, View, DeleteView
+from django.views.generic import (DetailView,
+                                  ListView,
+                                  RedirectView,
+                                  UpdateView,
+                                  CreateView,
+                                  View,
+                                  DeleteView,
+                                  TemplateView
+)
 from django.views.generic.detail import SingleObjectMixin
 from django.core import exceptions
 from django.http import HttpResponse
