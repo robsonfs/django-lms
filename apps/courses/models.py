@@ -17,6 +17,10 @@ class Semester(models.Model):
     start = models.DateField()
     end = models.DateField()
 
+    @classmethod
+    def get_current(cls):
+        return cls.objects.filter(start__lte = datetime.date.today(), end__gte = datetime.date.today())[0]
+    
     def active(self):
         return self.start <= datetime.date.today() and self.end >= datetime.date.today()
 
