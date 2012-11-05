@@ -9,8 +9,11 @@ from django.forms import ModelMultipleChoiceField
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.utils.translation import ugettext as _
 
-from courses.models import Course, Semester, Assignment, AssignmentSubmission, Resource
+from courses.models import Course, Semester, Assignment, AssignmentSubmission, Resource, CourseEvents
 
+class ScheduleInline(admin.StackedInline):
+    model = CourseEvents
+    extra = 1
 
 class CourseAdminForm(ModelForm):
     faculty = ModelMultipleChoiceField(queryset = User.objects.none(),

@@ -52,10 +52,8 @@ class Course(models.Model):
     teaching_assistants = models.ManyToManyField(User, related_name = _('Teaching Assistants'))
     members = models.ManyToManyField(User, related_name = _('Members'))
 
-
     private = models.BooleanField(default=False, blank=True)
 
-    schedule = recurrence.fields.RecurrenceField()
     credits = models.DecimalField(max_digits = 3, decimal_places = 1, default = '3.0')
     campus = models.CharField(max_length = 200,
                               choices = getattr(settings, 'CAMPUSES', [('main', 'Main'),] ),
@@ -71,7 +69,14 @@ class Course(models.Model):
             '/appmedia/admin/js/textareas.js',
             ),
 
+class CourseEvents(models.Model):
+    course = models.ForeignKey(Course, related_name = 'schedule')
+    title = models.CharField(max_length = 200, help_text = _('For example: Lecture, Meeting, Lab'))
+    start = models.TimeField()
+    end = models.TimeField()
+    recurrences = recurrence.fields.RecurrenceField()
 
+        
 class Assignment(models.Model):
     course = models.ForeignKey(Course)
     title = models.CharField(max_length = 200)
