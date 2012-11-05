@@ -51,21 +51,22 @@ class CourseAdminForm(ModelForm):
         exclude = ('faculty', 'members', 'teaching_assistants')
 
 class CourseAdmin(admin.ModelAdmin):
-     list_filter = ('semester',)
-     #filter_horizontal = ('faculty',)
-     form = CourseAdminForm
+    inlines = [ScheduleInline,]
+    list_filter = ('semester',)
+    #filter_horizontal = ('faculty',)
+    form = CourseAdminForm
 
-     def save_model(self, request, obj, form, change):
-         super(CourseAdmin, self).save_model(request, obj, form, change)
-         try:
-             if len(form.cleaned_data["faculty"]) > 0:
-                 obj.faculty = list(form.cleaned_data["faculty"])
-                 obj.save()
-             if len(form.cleaned_data["members"]) > 0:
-                 obj.members = list(form.cleaned_data["members"])
-                 obj.save()
-         except KeyError:
-             pass
+    def save_model(self, request, obj, form, change):
+        super(CourseAdmin, self).save_model(request, obj, form, change)
+        try:
+            if len(form.cleaned_data["faculty"]) > 0:
+                obj.faculty = list(form.cleaned_data["faculty"])
+                obj.save()
+            if len(form.cleaned_data["members"]) > 0:
+                obj.members = list(form.cleaned_data["members"])
+                obj.save()
+        except KeyError:
+            pass
 
 
 admin.site.register(Course, CourseAdmin)
