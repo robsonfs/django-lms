@@ -69,7 +69,7 @@ class Course(models.Model):
             '/appmedia/admin/js/textareas.js',
             ),
 
-class CourseEvents(models.Model):
+class CourseEvent(models.Model):
     course = models.ForeignKey(Course, related_name = 'schedule')
     title = models.CharField(max_length = 200, help_text = _('For example: Lecture, Meeting, Lab'))
     start = models.TimeField()
