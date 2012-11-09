@@ -1,5 +1,5 @@
 import factory
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from models import Course, Semester
 
