@@ -1,5 +1,6 @@
 import datetime
 import itertools
+from collections import defaultdict
 
 from django import forms
 from django.contrib import messages
@@ -509,4 +510,26 @@ class EditResource(UpdateView):
 
         return super(EditResource, self).dispatch(request, *args, **kwargs)
 
+class CourseCalendar(TemplateView):
+    template_name = 'courses/calendar.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(CourseCalendar, self).get_context_data(**kwargs)
+        semester = Semester.get_current()
+
+        # Create a dictionary of months in the semester that contains defaultdicts of lists
+        months = dict([(i, defaultdict(list)) for i in range(semester.start.month, semester.end.month + 1)])
+        start = datetime.datetime.combine(semester.start, datetime.time(0,0))
+        end = datetime.datetime.combine(semester.end, datetime.time(0,0))
+        for course in semester.course_set.all():
+            for event in course.schedule.all():
+                for single_occurence in event.recurrences.occurrences(dtstart = start, dtend = end):
+                    months[single_occurence.month][single_occurence.day].append((single_occurence, event))
+
+
+        # We have to convert to a regular dictionary for the django templating engine
+        for key, month in months.iteritems():
+            months[key].default_factory = None
+            
+        context['months'] = months
+        return context

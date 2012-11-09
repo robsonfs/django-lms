@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import *
 from courses.views import (CourseOverview,
+   CourseCalendar,
    BySemesterList,
    SemesterList,
    CourseDropPage,
@@ -47,4 +48,7 @@ urlpatterns = patterns('',
     url('^assignment/(?P<pk>\w+)/edit/$', login_required(EditAssignment.as_view()), name = 'edit_assignment'),
     url('^(?P<pk>\w+)/assignments/team_submit/$', login_required(TeamSubmitAssignment.as_view()), name = 'team_submit_assignment'),
     url('^assignment_submission/delete/$', login_required(DeleteSubmission.as_view()), name = 'delete_submission'),
+
+    # Schedule
+    url('^calendar/$', login_required(CourseCalendar.as_view()), name = 'calendar'),
 )
