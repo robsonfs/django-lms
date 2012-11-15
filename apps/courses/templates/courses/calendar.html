@@ -2,12 +2,7 @@
 {% block title %}{{ course.title }}{% endblock title %}
 {% block content %}
 <h1>Calendar</h1>
-{% for month_key, month in months.items %}
-Month is {{ month_key }}<br>  
-  {% for day, events in month.items %}
-    {% for datetime, event in events %}
-      {{ event.course }} ({{ event.title }})<br>  
-    {% endfor %}    
-  {% endfor %}
-{% endfor %}
+<div class="calendar">
+  {{ calendar|safe }}  
+</div>
 {% endblock content %}

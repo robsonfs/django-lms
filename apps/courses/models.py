@@ -1,4 +1,5 @@
 import datetime
+from itertools import groupby, chain
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import Group, User
@@ -20,7 +21,30 @@ class Semester(models.Model):
     @classmethod
     def get_current(cls):
         return cls.objects.filter(start__lte = datetime.date.today(), end__gte = datetime.date.today())[0]
-    
+
+    def get_events(self):
+        # Create a dictionary of months in the semester that contains defaultdicts of lists
+        start = datetime.datetime.combine(self.start, datetime.time(0,0))
+        end = datetime.datetime.combine(self.end, datetime.time(0,0))
+        
+        occurrences = []
+        
+        # Gather all the occurences
+        for course in self.course_set.all():
+            for event in course.schedule.all():
+                occurrences.append([(single_occurence, event) for single_occurence in event.recurrences.occurrences(dtstart = start, dtend = end)])
+
+        months = dict([(month, list(events)) for month, events in groupby(chain(*occurrences), lambda a: a[0].month)])
+
+        for month, e in months.iteritems():
+            months[month] = dict([(day, list(events)) for day, events in groupby(e, lambda a: a[0].day)])
+
+        return months
+
+    @classmethod
+    def get_current_events(cls):
+        return cls.get_current().get_events()
+        
     def active(self):
         return self.start <= datetime.date.today() and self.end >= datetime.date.today()
 
@@ -60,6 +84,9 @@ class Course(models.Model):
         )
     location = models.CharField(max_length = 200)
 
+    def full_title(self):
+        return "{}-{} {}".format(self.number, self.section, self.title)
+    
     def __unicode__(self):
         return "%s" % (self.title)
 

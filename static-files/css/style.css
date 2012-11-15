@@ -151,6 +151,19 @@ ul.nav.logged_out,
 tr:hover {
   background-color: #fcfcdc;
 }
+.calendar table {
+  width: 100%;
+}
+.calendar tr td {
+  width: 14.285714285714286%;
+  border: 1px solid #ccc;
+}
+.calendar tr td div.day {
+  min-height: 100px;
+}
+.calendar tr:hover {
+  background-color: inherit;
+}
 #course-list {
   font-size: 1.25em;
 }
