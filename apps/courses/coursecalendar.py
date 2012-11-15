@@ -3,6 +3,7 @@ from datetime import date
 from calendar import HTMLCalendar, monthrange
 from django.utils.html import conditional_escape as esc
 from django.utils.safestring import mark_safe
+from utils import short_time
 
 class HTMLCourseCalendar(HTMLCalendar):
     def __init__(self, events, *args, **kwargs):
@@ -25,7 +26,7 @@ class HTMLCourseCalendar(HTMLCalendar):
                 cssclass += ' filled'
                 body = []
                 for event in self.events[self.month][day]:
-                    body.append('{}<br>'.format(event[1].course.full_title()))
+                    body.append('{} {}<br>'.format(short_time(event[1].start), event[1].course.full_title()))
                 return self.day_cell(cssclass, '<div class="dayNumber">%d</div> %s' % (day, ''.join(body)))
             return self.day_cell(cssclass, '<div class="dayNumber">%d</div>' % day)
         return self.day_cell('noday', '&nbsp;')
