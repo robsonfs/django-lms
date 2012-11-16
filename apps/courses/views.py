@@ -519,6 +519,7 @@ class CourseCalendar(TemplateView):
         context = super(CourseCalendar, self).get_context_data(**kwargs)
         events = Semester.get_current_events()
         context['calendar'] = HTMLCourseCalendar(events).formatmonth(2012, 11)
+        context['semester'] = Semester.get_current()
         
         return context
 
