@@ -1,0 +1,8 @@
+{% extends "html_base.html" %}
+{% block title %}{{ course.title }}{% endblock title %}
+{% block content %}
+<h1>Calendar</h1>
+<div class="calendar">
+  {{ calendar|safe }}  
+</div>
+{% endblock content %}

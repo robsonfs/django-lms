@@ -182,6 +182,26 @@ tr:hover {
   background-color: @tableYellow;
 }
 
+.calendar {
+  table {
+    width: 100%;
+    }
+  tr{
+    td {
+      width: 100%/7;
+      border: 1px solid #ccc;
+
+      div.day {
+        min-height: 100px;
+        }
+      }
+
+    &:hover {
+      background-color: inherit;
+    }
+  }
+}
+
 #course-list {
   font-size: 1.25em;
 

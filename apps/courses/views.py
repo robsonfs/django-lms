@@ -1,5 +1,6 @@
 import datetime
 import itertools
+from collections import defaultdict
 
 from django import forms
 from django.contrib import messages
@@ -24,6 +25,8 @@ from django_statsd.clients import statsd
 
 from courses.models import Course, Semester, Assignment, AssignmentSubmission, Resource
 from courses.forms import CourseAdminForm, AssignmentForm, SubmitAssignmentForm, TeamSubmitAssignmentForm, ResourceForm
+
+from courses.coursecalendar import HTMLCourseCalendar
 
 class CourseOverview(DetailView):
     name = "Course overview"
@@ -509,4 +512,26 @@ class EditResource(UpdateView):
 
         return super(EditResource, self).dispatch(request, *args, **kwargs)
 
+class CourseCalendar(TemplateView):
+    template_name = 'courses/calendar.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(CourseCalendar, self).get_context_data(**kwargs)
+        events = Semester.get_current_events()
+        context['calendar'] = HTMLCourseCalendar(events).formatmonth(2012, 11)
+        
+        return context
+
+class CourseCalendarDay(TemplateView):
+    template_name = 'courses/calendar_day.html'
+
+    def get_context_data(self, year, month, day, **kwargs):
+        context = super(CourseCalendarDay, self).get_context_data(**kwargs)
+        date_object = datetime.datetime(int(year), int(month), int(day))
+
+        semester = get_object_or_404(Semester, start__lte = date_object, end__gte = date_object)
+
+        # TODO: This is very inefficient
+        context['events'] = semester.get_events()[int(month)][int(day)]
+        context.update(locals())
+        return context
