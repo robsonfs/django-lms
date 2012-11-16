@@ -521,3 +521,17 @@ class CourseCalendar(TemplateView):
         context['calendar'] = HTMLCourseCalendar(events).formatmonth(2012, 11)
         
         return context
+
+class CourseCalendarDay(TemplateView):
+    template_name = 'courses/calendar_day.html'
+
+    def get_context_data(self, year, month, day, **kwargs):
+        context = super(CourseCalendarDay, self).get_context_data(**kwargs)
+        date_object = datetime.datetime(int(year), int(month), int(day))
+
+        semester = get_object_or_404(Semester, start__lte = date_object, end__gte = date_object)
+
+        # TODO: This is very inefficient
+        context['events'] = semester.get_events()[int(month)][int(day)]
+        context.update(locals())
+        return context
