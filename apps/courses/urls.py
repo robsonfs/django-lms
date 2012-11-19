@@ -52,6 +52,7 @@ urlpatterns = patterns('',
 
     # Schedule
     url('^calendar/$', login_required(CourseCalendar.as_view()), name = 'calendar'),
+    url('^calendar/(?P<semester>\d+)/$', login_required(CourseCalendar.as_view()), name = 'calendar'),
     url('^calendar/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', login_required(CourseCalendarDay.as_view()), name = 'calendar_day'),
 
 )

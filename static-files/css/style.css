@@ -153,6 +153,7 @@ tr:hover {
 }
 .calendar table {
   width: 100%;
+  margin-bottom: 20px;
 }
 .calendar tr td {
   width: 14.285714285714286%;

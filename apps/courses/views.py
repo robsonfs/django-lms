@@ -1,6 +1,7 @@
 import datetime
 import itertools
 from collections import defaultdict
+from dateutil import rrule
 
 from django import forms
 from django.contrib import messages
@@ -517,10 +518,19 @@ class CourseCalendar(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(CourseCalendar, self).get_context_data(**kwargs)
-        events = Semester.get_current_events()
-        context['calendar'] = HTMLCourseCalendar(events).formatmonth(2012, 11)
-        context['semester'] = Semester.get_current()
-        
+        if kwargs.get('semester', False):
+            semester = Semester.objects.get(pk = kwargs['semester'])
+        else:
+            semester = Semester.get_current()
+            
+        events = semester.get_events()
+
+        # Generate a calendar for every month in the semester
+        calendars = []
+        for dt in rrule.rrule(rrule.MONTHLY, dtstart=semester.start, until=semester.end):
+            calendars.append(HTMLCourseCalendar(events).formatmonth(dt.year, dt.month))
+
+        context.update(locals())
         return context
 
 class CourseCalendarDay(TemplateView):
