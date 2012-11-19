@@ -13,6 +13,8 @@ from courses.models import Course, Semester, Assignment, AssignmentSubmission, R
 
 import libs.test_utils as test_utils
 
+from .factories import EventFactory
+
 one_week = datetime.timedelta(7)
 one_day = datetime.timedelta(1)
 
@@ -379,3 +381,12 @@ class ResourceTest(test_utils.AuthenticatedTest):
 
         self.assertRaises(Resource.DoesNotExist, Resource.objects.get, pk = resource_id)
 
+
+class CalendarTest(test_utils.AuthenticatedTest):
+    def setUp(self):
+        super(CalendarTest, self).setUp()
+        self.course_event = EventFactory.create()
+
+    def test_exists(self):
+        response = self.c.get(reverse('courses:calendar'))
+        self.assertEquals(response.status_code, 200)
