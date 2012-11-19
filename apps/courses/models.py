@@ -103,7 +103,23 @@ class CourseEvent(models.Model):
     end = models.TimeField()
     recurrences = recurrence.fields.RecurrenceField()
 
-        
+    @property
+    def readable(self):
+        lines = ["<strong>{}:</strong>".format(self.title)]
+        for r in self.recurrences.rrules:  
+            lines.append(r.to_text())
+
+        for r in self.recurrences.exrules:  
+            lines.append("Except {}".format(r.to_text()))
+            
+        for r in self.recurrences.rdates:
+            lines.append(r.strftime("%a %b %d, %Y"))
+
+        for r in self.recurrences.exdates:
+            lines.append("Except {}".format(r.strftime("%a %b %d, %Y")))
+
+        return "<br>".join(lines)
+            
 class Assignment(models.Model):
     course = models.ForeignKey(Course)
     title = models.CharField(max_length = 200)
