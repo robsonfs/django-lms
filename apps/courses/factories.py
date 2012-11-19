@@ -1,7 +1,7 @@
 import factory
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 from django.contrib.auth.models import User, Group
-from models import Course, Semester, Assignment
+from models import Course, CourseEvent, Semester, Assignment
 
 class SemesterFactory(factory.Factory):
     FACTORY_FOR = Semester
@@ -21,6 +21,16 @@ class CourseFactory(factory.Factory):
     semester = factory.LazyAttribute(lambda a: SemesterFactory())
     campus = 'main'
     location = '543'
+
+class EventFactory(factory.Factory):
+    FACTORY_FOR = CourseEvent
+
+    course = factory.LazyAttribute(lambda a: CourseFactory())
+    title = 'Lecture'
+    start = time(9,0)
+    end = time(11,0)
+    recurrences = "RRULE:FREQ=WEEKLY;BYDAY=TU,TH"
+    
 
 class AssignmentFactory(factory.Factory):
     FACTORY_FOR = Assignment
