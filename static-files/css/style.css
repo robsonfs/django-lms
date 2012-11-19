@@ -172,7 +172,7 @@ tr:hover {
   font-size: 1em;
 }
 #course-list table {
-  min-width: 600px;
+  min-width: 100%;
   width: auto !important;
 }
 #course-list th {
