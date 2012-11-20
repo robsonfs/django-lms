@@ -1,5 +1,6 @@
 import sys
 import os
+from datetime import timedelta
 
 import django.conf.global_settings as DEFAULT_SETTINGS
 
@@ -182,6 +183,8 @@ BROKER_VHOST = os.environ.get('BROKER_VHOST', "/")
 
 CELERY_ALWAYS_EAGER = True if os.environ.get('CELERY_ALWAYS_EAGER', False) == 'True' else False
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
+CELERYBEAT_SCHEDULE = {}
+
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 TYPEKIT_URL = os.environ.get('TYPEKIT_URL')
