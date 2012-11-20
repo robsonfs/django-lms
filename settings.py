@@ -109,6 +109,7 @@ INSTALLED_APPS = [
     
     'apps.springboard',
     'apps.lms_admin',
+    'apps.lms_main',
     'apps.courses',
     'apps.profiles',
     'apps.alerts',
