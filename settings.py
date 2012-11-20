@@ -5,9 +5,6 @@ import django.conf.global_settings as DEFAULT_SETTINGS
 
 import dj_database_url
 
-import djcelery
-djcelery.setup_loader()
-
 # Django settings for intranet project.
 
 DEBUG = True if os.environ.get('DEBUG', False) == 'True' else False
@@ -199,3 +196,6 @@ MIDDLEWARE_CLASSES = (
     'django_statsd.middleware.GraphiteRequestTimingMiddleware',
     'django_statsd.middleware.GraphiteMiddleware',
 ) + MIDDLEWARE_CLASSES
+
+import djcelery
+djcelery.setup_loader()
