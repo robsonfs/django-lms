@@ -1,10 +1,10 @@
 import sys
 import os
+import dj_database_url
 from datetime import timedelta
 
+from celery.schedules import crontab
 import django.conf.global_settings as DEFAULT_SETTINGS
-
-import dj_database_url
 
 # Django settings for intranet project.
 
@@ -183,7 +183,12 @@ BROKER_VHOST = os.environ.get('BROKER_VHOST', "/")
 
 CELERY_ALWAYS_EAGER = True if os.environ.get('CELERY_ALWAYS_EAGER', False) == 'True' else False
 CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
-CELERYBEAT_SCHEDULE = {}
+CELERYBEAT_SCHEDULE = {'expire_course_visibility':
+                       {
+                           'task':'expire_course_visibility',
+                           'schedule': crontab(hour=1, minute=0),
+                       },
+                      }
 
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
