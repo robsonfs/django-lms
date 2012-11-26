@@ -22,15 +22,18 @@ class Semester(models.Model):
     def get_current(cls):
         return cls.objects.filter(start__lte = datetime.date.today(), end__gte = datetime.date.today())[0]
 
-    def get_events(self):
+    def get_events(self, course_set = False):
         # Create a dictionary of months in the semester that contains defaultdicts of lists
         start = datetime.datetime.combine(self.start, datetime.time(0,0))
         end = datetime.datetime.combine(self.end, datetime.time(0,0))
         
         occurrences = []
-        
+
+        if not course_set:
+            course_set = self.course_set.all()
+
         # Gather all the occurences
-        for course in self.course_set.all():
+        for course in course_set:
             for event in course.schedule.all():
                 occurrences.append([(single_occurence, event) for single_occurence in event.recurrences.occurrences(dtstart = start, dtend = end)])
 

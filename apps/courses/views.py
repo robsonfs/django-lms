@@ -56,7 +56,6 @@ class CourseOverview(DetailView):
 
         return super(CourseOverview, self).dispatch(request, *args, **kwargs)
 
-
 class CourseMembers(CourseOverview):
     template_name = "courses/members.html"
 
@@ -516,6 +515,9 @@ class EditResource(UpdateView):
 class CourseCalendar(TemplateView):
     template_name = 'courses/calendar.html'
 
+    def get_events(self, semester):
+        return semester.get_events()
+    
     def get_context_data(self, **kwargs):
         context = super(CourseCalendar, self).get_context_data(**kwargs)
         if kwargs.get('semester', False):
@@ -523,12 +525,12 @@ class CourseCalendar(TemplateView):
         else:
             semester = Semester.get_current()
             
-        events = semester.get_events()
+        events = self.get_events(semester)
 
         # Generate a calendar for every month in the semester
         calendars = []
         for dt in rrule.rrule(rrule.MONTHLY, dtstart=semester.start, until=semester.end):
-            calendars.append(HTMLCourseCalendar(events).formatmonth(dt.year, dt.month))
+            calendars.append(HTMLCourseCalendar(events, user_cal = kwargs.get('user_cal', False)).formatmonth(dt.year, dt.month))
 
         context.update(locals())
         return context
@@ -536,6 +538,9 @@ class CourseCalendar(TemplateView):
 class CourseCalendarDay(TemplateView):
     template_name = 'courses/calendar_day.html'
 
+    def get_events(self, semester, month, day):
+        return semester.get_events()[int(month)][int(day)]
+    
     def get_context_data(self, year, month, day, **kwargs):
         context = super(CourseCalendarDay, self).get_context_data(**kwargs)
         date_object = datetime.datetime(int(year), int(month), int(day))
@@ -543,6 +548,20 @@ class CourseCalendarDay(TemplateView):
         semester = get_object_or_404(Semester, start__lte = date_object, end__gte = date_object)
 
         # TODO: This is very inefficient
-        context['events'] = semester.get_events()[int(month)][int(day)]
+        context['events'] = self.get_events(semester, month, day)
         context.update(locals())
         return context
+
+class UserCourseCalendar(CourseCalendar):
+    def get_events(self, semester):
+        return semester.get_events(course_set = self.request.user.Members.all())
+
+    def get_context_data(self, *args, **kwargs):
+        kwargs.update({'user_cal': True})
+        context = super(UserCourseCalendar, self).get_context_data(*args, **kwargs)
+        context.update({'user_cal': True})
+        return context
+        
+class UserCourseCalendarDay(CourseCalendarDay):
+    def get_events(self, semester, month, day):
+        return semester.get_events(course_set = self.request.user.Members.all())[int(month)][int(day)]

@@ -2,6 +2,8 @@ from django.conf.urls.defaults import *
 from courses.views import (CourseOverview,
    CourseCalendar,
    CourseCalendarDay,
+   UserCourseCalendar,
+   UserCourseCalendarDay,
    BySemesterList,
    SemesterList,
    CourseDropPage,
@@ -55,4 +57,8 @@ urlpatterns = patterns('',
     url('^calendar/(?P<semester>\d+)/$', login_required(CourseCalendar.as_view()), name = 'calendar'),
     url('^calendar/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', login_required(CourseCalendarDay.as_view()), name = 'calendar_day'),
 
+    # Schedule
+    url('^user_calendar/$', login_required(UserCourseCalendar.as_view()), name = 'user_calendar'),
+    url('^user_calendar/(?P<semester>\d+)/$', login_required(UserCourseCalendar.as_view()), name = 'user_calendar'),
+    url('^user_calendar/(?P<year>\d+)/(?P<month>\d+)/(?P<day>\d+)/$', login_required(UserCourseCalendarDay.as_view()), name = 'user_calendar_day'),
 )

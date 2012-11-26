@@ -9,6 +9,7 @@
 <div class="pagehead">
   <ul class="tabs"> 
   <li><a href="{% url courses:calendar semester.id %}">Calendar</a></li> 
+  <li><a href="{% url courses:user_calendar semester.id %}">My Courses Calendar</a></li> 
   {% if 'Admissions' in groups %}<li class="right"><a href="{% url admin:courses_course_changelist %}">Admin Courses</a></li>{% endif %}
  </ul>
 </div>

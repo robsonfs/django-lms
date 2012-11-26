@@ -9,6 +9,8 @@ from utils import short_time
 class HTMLCourseCalendar(HTMLCalendar):
     def __init__(self, events, *args, **kwargs):
         self.events = events
+        self.user_cal = kwargs.pop('user_cal', False)
+            
         return super(HTMLCourseCalendar, self).__init__(*args, **kwargs)
     
     def formatmonth(self, year, month):
@@ -26,7 +28,10 @@ class HTMLCourseCalendar(HTMLCalendar):
             if day in self.events[self.month]:
                 cssclass += ' filled'
                 body = []
-                day_link = reverse('courses:calendar_day', kwargs = {'year': self.year, 'month': self.month, 'day': day})
+                if self.user_cal:
+                    day_link = reverse('courses:user_calendar_day', kwargs = {'year': self.year, 'month': self.month, 'day': day})
+                else:
+                    day_link = reverse('courses:calendar_day', kwargs = {'year': self.year, 'month': self.month, 'day': day})
                 for event in self.events[self.month][day]:
                     body.append('{} {}<br>'.format(short_time(event[1].start), event[1].course.full_title()))
                 return self.day_cell(cssclass, '<div class="dayNumber"><a href="%s">%d</a></div> %s' % (day_link, day, ''.join(body)))
