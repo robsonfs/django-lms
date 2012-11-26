@@ -18,8 +18,11 @@ class BetterUserAdmin(UserAdmin):
     def get_form(self, request, obj=None, **kwargs):
         # Get form from original UserAdmin.
         form = super(BetterUserAdmin, self).get_form(request, obj, **kwargs)
-        groups = form.base_fields['groups']
-        groups.widget = FilteredSelectMultiple("Groups", False)
+        try:
+            groups = form.base_fields['groups']
+            groups.widget = FilteredSelectMultiple("Groups", False)
+        except KeyError:
+            pass
         return form
 
 
