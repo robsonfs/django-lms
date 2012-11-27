@@ -62,6 +62,16 @@ class Semester(models.Model):
         Checks if the start date is in the future
         '''
         return self.start > datetime.date.today()
+
+    def get_next(self):
+        '''
+        Try to return the semester after this one.
+        '''
+        semesters = Semester.objects.filter(start__gt = self.end).order_by('-start')
+        if len(semesters) > 0:
+            return semesters[0]
+        else:
+            raise Semester.DoesNotExist
         
         
     def __unicode__(self):
