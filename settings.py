@@ -188,6 +188,11 @@ CELERYBEAT_SCHEDULE = {'expire_course_visibility':
                            'task':'expire_course_visibility',
                            'schedule': crontab(hour=1, minute=0),
                        },
+                       'disable_faculty':
+                       {
+                           'task':'disable_faculty',
+                           'schedule': crontab(hour=1, minute=0),
+                       },
                       }
 
 
