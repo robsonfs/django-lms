@@ -74,6 +74,3 @@ class CourseAdmin(admin.ModelAdmin):
 
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Semester)
-#admin.site.register(Assignment)
-#admin.site.register(AssignmentSubmission)
-#admin.site.register(Resource)
