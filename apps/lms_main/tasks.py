@@ -3,11 +3,11 @@ import datetime
 from itertools import chain
 from celery.task import task
 from courses.models import Course, Semester
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import User, Group
 
 
 def get_yesterday_semester():
-    return Semester.objects.get(end__lt = datetime.date.today(), end__gte = datetime.date.today() + datetime.timedelta(hours=24))
+    return Semester.objects.get(end__lt = datetime.date.today(), end__gte = datetime.date.today() - datetime.timedelta(hours=24))
 
 @task
 def expire_course_visibility():
