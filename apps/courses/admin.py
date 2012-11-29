@@ -59,6 +59,16 @@ class CourseAdmin(admin.ModelAdmin):
         super(CourseAdmin, self).save_model(request, obj, form, change)
         try:
             if len(form.cleaned_data["faculty"]) > 0:
+                # Discover is there are any new faculty in the list
+                old_faculty = set(obj.faculty.all())
+                new_faculty = set(form.cleaned_data["faculty"])
+
+                if len(new_faculty.difference(old_faculty)) > 0:
+                    # A new faculty was added.
+                    for instructor in new_faculty.difference(old_faculty):
+                        instructor.is_active = True
+                        instructor.save()
+                    
                 obj.faculty = list(form.cleaned_data["faculty"])
                 obj.save()
             if len(form.cleaned_data["members"]) > 0:
