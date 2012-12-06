@@ -51,7 +51,7 @@ class CourseOverview(DetailView):
         course = self.get_object()
 
         if course.private:
-            if request.user not in itertools.chain(course.faculty.all(), course.members.all(), course.teaching_assistants.all()):
+            if request.user not in itertools.chain(course.faculty.all(), course.members.all(), course.teaching_assistants.all()) and not request.user.is_superuser:
                 raise exceptions.PermissionDenied
 
         return super(CourseOverview, self).dispatch(request, *args, **kwargs)
@@ -173,8 +173,8 @@ class NewCourseAssignment(CreateView):
         self.kwargs = kwargs
         course = Course.objects.get(pk = self.kwargs['pk'])
 
-        if request.user not in course.faculty.all():
-                raise exceptions.PermissionDenied
+        if request.user not in course.faculty.all() and not request.user.is_superuser:
+            raise exceptions.PermissionDenied
 
         return super(NewCourseAssignment, self).dispatch(request, *args, **kwargs)
 
@@ -225,7 +225,7 @@ class AssignmentOverview(DetailView):
         course = self.get_object().course
 
         if course.private:
-            if request.user not in course.faculty and request.user not in course.members:
+            if request.user not in course.faculty and request.user not in course.members and not request.user.is_superuser:
                 raise exceptions.PermissionDenied
 
         return super(AssignmentOverview, self).dispatch(request, *args, **kwargs)
@@ -272,7 +272,7 @@ class SubmitAssignment(CreateView):
 
         course = self.assignment.course
         
-        if request.user not in self.assignment.course.members.all():
+        if request.user not in self.assignment.course.members.all() and not request.user.is_superuser:
                 raise exceptions.PermissionDenied
 
         return super(SubmitAssignment, self).dispatch(request, *args, **kwargs)
@@ -350,7 +350,7 @@ class NewCourseResource(CreateView):
         self.kwargs = kwargs
         course = Course.objects.get(pk = self.kwargs['pk'])
 
-        if request.user not in course.faculty.all():
+        if request.user not in course.faculty.all() and not request.user.is_superuser:
                 raise exceptions.PermissionDenied
 
         return super(NewCourseResource, self).dispatch(request, *args, **kwargs)
@@ -394,7 +394,7 @@ class ResourceDetails(DetailView):
         course = self.get_object().course
 
         if course.private:
-            if request.user not in course.faculty.all() and request.user not in course.members.all():
+            if request.user not in course.faculty.all() and request.user not in course.members.all() and not request.user.is_superuser:
                 raise exceptions.PermissionDenied
 
         return super(ResourceDetails, self).dispatch(request, *args, **kwargs)
@@ -479,7 +479,7 @@ class EditAssignment(UpdateView):
         self.kwargs = kwargs
         course = self.get_object().course
 
-        if request.user not in course.faculty.all():
+        if request.user not in course.faculty.all() and not request.user.is_superuser:
                 raise exceptions.PermissionDenied
 
         return super(EditAssignment, self).dispatch(request, *args, **kwargs)
@@ -507,7 +507,7 @@ class EditResource(UpdateView):
         self.kwargs = kwargs
         course = self.get_object().course
 
-        if request.user not in course.faculty.all():
+        if request.user not in course.faculty.all() and not request.user.is_superuser:
                 raise exceptions.PermissionDenied
 
         return super(EditResource, self).dispatch(request, *args, **kwargs)
