@@ -5,19 +5,18 @@
 {% endblock breadcrumbs %}
 
 {% block title %}{{ semester }}{% endblock title %}
-{% block content %}
-<div class="pagehead">
-  <ul class="tabs"> 
+{% block menu %}
   <li><a href="{% url courses:calendar semester.id %}">Calendar</a></li> 
   <li><a href="{% url courses:user_calendar semester.id %}">My Courses Calendar</a></li> 
+  <li><a href="{% url courses:semester_list %}">Browse Semesters</a></li>
+  
   {% if 'Admissions' in groups %}<li class="right"><a href="{% url admin:courses_course_changelist %}">Admin Courses</a></li>{% endif %}
- </ul>
-</div>
+{% endblock menu %}
 
-<div id="course-list">
+{% block content %}
+<section id="course-list">
   <h1>Courses for {{ semester }}</h1>
-  <a href="{% url courses:semester_list %}">Browse Semesters</a>  
-  <table>
+  <table class="table table-striped full-section table-hover">
     <thead>
       <tr>
 	<th class="course-number">Number</th>
@@ -43,5 +42,5 @@
       {% endfor %}
     </tbody>
   </table>
-</div>
+</section>
 {% endblock content %}

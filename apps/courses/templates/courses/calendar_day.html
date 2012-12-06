@@ -8,6 +8,11 @@
 {% endblock breadcrumbs %}
 
 {% block title %}{{ course.title }}{% endblock title %}
+
+{% block aside %}
+{% endblock %}
+{% block content_attributes %}class="span12"{% endblock %}
+
 {% block content %}
 <h1>Events for {{ month }} - {{ day }} - {{ year }}</h1>
 <div class="calendar">

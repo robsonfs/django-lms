@@ -7,6 +7,11 @@
 {% endblock breadcrumbs %}
 
 {% block title %}{{ course.title }}{% endblock title %}
+
+{% block aside %}
+{% endblock %}
+{% block content_attributes %}class="span12"{% endblock %}
+
 {% block content %}
 <h1>Calendar</h1>
 {% for calendar in calendars %}

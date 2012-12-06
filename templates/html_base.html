@@ -49,24 +49,33 @@
   </head>
 
   <body class="{% block bodyclass %}{% endblock bodyclass %}">
-    <div class="container">
-      <div class="row">
-        <header>
-          <div id="header">
-            <div class="span3" id="logo-container">
-              <a href="{% url springboard %}"><img id="logo" src="{{ STATIC_URL }}images/logo.png"></a>
+    <header>
+      <div class="navbar navbar-static-top navbar-inverse">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="brand" href="{% url springboard %}"><img id="logo" src="{{ STATIC_URL }}images/logo.png"></a>
+            <div class="nav-collapse collapse" id="main-menu">
+              <div class="auth pull-right">
+                {% if user.is_authenticated %}
+                  <img class="avatar" src="{{ STATIC_URL }}images/profile-empty-head.gif">
+                  <span class="name"><a href="{% url profiles:detail user %}">{{ user.first_name }} {{ user.last_name }}</a></span><br/>
+                  <span class="links">
+                    {% if user.is_staff %}<a href="{% url admin:index %}">Admin</a>{% endif %}
+                    <a href="{% url logout %}">Log Out</a>
+                  </span>
+	            {% else %}
+                  <span class="links">
+                    <a href="{% url login %}">Log In</a>
+                  </span>
+                {% endif %}
+              </div>
             </div>
-            {% if user.is_authenticated %}
-            <div class="span4 offset5" id="userbox">
-	          <span class="userbox">
-                <a href="{% url profiles:detail user %}">{{ user.first_name }} {{ user.last_name }}</a>{% if user.is_staff %} | <a href="{% url admin:index %}">Admin</a>{% endif %} | <a href="{% url logout %}">Log Out</a>
-	          </span>
-            </div>
-	        {% endif %}
 	      </div>
-        </header>
-      </div>
-      <div id="main" role="main" class="row">
+	    </div>
+      </div>    
+    </header>
+    <div class="container" id="top-container">    
+      <div class="row">
         <div id="messages" class="span12">
           {% if messages %}
           {% for message in messages %}
@@ -83,11 +92,25 @@
         </div>
       </div>
     </div>
-    <div class="container" id="content">
+    <div class="container" id="main">
       <div class="row">
-        <div class="span12">
+        {% block aside %}
+        <div class="span3">
+          <aside>
+            <nav>
+              <ul class="nav">
+                {% block menu %}
+                {% endblock menu %}                
+              </ul>
+            </nav>
+          </aside>
+        </div>        
+      {% endblock aside %}
+        <div {% block content_attributes %}class="span9" id="content-wrapper"{% endblock %}>
+          <div id="content">
 	      {% block content %}
 	      {% endblock content %}
+          </div>          
 	    </div>
       </div>
     </div>
