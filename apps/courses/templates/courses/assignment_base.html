@@ -3,29 +3,24 @@
 {% load courses %}
 
 {% block course_content %}
-<div class="row">
-  <div class="span12">
-    <h2>{% block page_title%}Assignments{% endblock page_title %}</h2>
-    <div class="row">
-      <div class="span9">
-        {% block assignment_content %}
-        {% endblock assignment_content %}
-      </div>
-      <div class="span3 last">
-        <div class="toolbox san-serif">
-          <div class="toolbox-header cap-san-serif">
-	        Tools
-          </div>
-          {% block tools %}
-          {% ifcoursefaculty %}<a href="{% url courses:new_assignment course.id %}">New assignment</a>{% endifcoursefaculty %}
-          <a href="#">Show by due date</a>
-          <a href="#">Show by last modified</a>
-          <a href="#">Show by created date</a>
-          {% endblock tools %}
-        </div>
-      </div>
+  <div class="navbar tools">
+    <div class="navbar-inner">
+      <ul class="nav">
+        {% block tools %}
+          {% ifcoursefaculty %}<li><a href="{% url courses:new_assignment course.id %}">New assignment</a></li>{% endifcoursefaculty %}
+          <li><a href="#">Show by due date</a></li>
+          <li><a href="#">Show by last modified</a></li>
+          <li><a href="#">Show by created date</a></li>
+        {% endblock tools %}
+      </ul>        
     </div>
   </div>
+
+
+  <h2>{% block page_title%}Assignments{% endblock page_title %}</h2>
+  {% block assignment_content %}
+  {% endblock assignment_content %}
+  
 {% endblock course_content %}
 
 
