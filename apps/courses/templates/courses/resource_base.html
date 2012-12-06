@@ -3,24 +3,21 @@
 {% load courses %}
 
 {% block course_content %}
-<h2>{% block page_title%}Resources{% endblock page_title %}</h2>
-<div class="row">
-  <div class="span10">
-    {% block resource_content %}
-    {% endblock resource_content %}
-  </div>
   {% ifcoursefaculty %}
-  <div class="span2">
-    <div class="toolbox san-serif">
-      <div class="toolbox-header cap-san-serif">
-	    Tools
-      </div>
-      {% block tools %}
-      <a href="{% url courses:resource_create course.id %}">New resource</a>
-      {% endblock tools %}
+  <div class="navbar tools">
+    <div class="navbar-inner">
+      <ul class="nav">
+	    {% block tools %}
+          <li><a href="{% url courses:resource_create course.id %}">New resource</a></li>
+        {% endblock tools %}
+      </ul>        
     </div>
   </div>
   {% endifcoursefaculty %}
+
+<h2>{% block page_title%}Resources{% endblock page_title %}</h2>
+{% block resource_content %}
+{% endblock resource_content %}
 </div>
 {% endblock course_content %}
 
