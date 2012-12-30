@@ -11,7 +11,7 @@ django-celery
 django-tastypie
 celery-with-mongodb
 django-social-auth
-django-recurrence
+django-recurrence<1.1
 psycopg2
 gunicorn
 django-statsd-mozilla
