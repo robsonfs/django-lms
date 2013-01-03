@@ -38,7 +38,7 @@ Installation
 
 - Clone the repo
 
- `git clone git@github.com:instituteofdesign/django-lms.git`
+ `git clone --recursive git@github.com:instituteofdesign/django-lms.git`
 
 - Use the requirements file in the repo
 
